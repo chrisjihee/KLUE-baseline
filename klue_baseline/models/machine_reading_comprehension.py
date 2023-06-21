@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import Any, Dict, List, Union
 
 import torch
-from overrides import overrides
 from transformers import AutoModelForQuestionAnswering
 from transformers.data.metrics.squad_metrics import compute_predictions_logits
 from transformers.data.processors.squad import SquadResult
@@ -35,11 +34,9 @@ class MRCTransformer(BaseTransformer):
             metrics=metrics,
         )
 
-    @overrides
     def forward(self, **inputs: torch.Tensor) -> Any:
         return self.model(**inputs)
 
-    @overrides
     def training_step(self, batch: List[torch.Tensor], batch_idx: int) -> Dict[str, torch.Tensor]:
         input_features = {
             "input_ids": batch[0],
@@ -51,10 +48,9 @@ class MRCTransformer(BaseTransformer):
             input_features["token_type_ids"] = batch[2]
 
         loss = self(**input_features)[0]
-        self.log("train/loss", loss)
+        self.log("train-loss", loss)
         return {"loss": loss}
 
-    @overrides
     def validation_step(
         self, batch: List[torch.Tensor], batch_idx: int, data_type: str = "valid"
     ) -> Dict[str, QAResults]:
@@ -77,7 +73,6 @@ class MRCTransformer(BaseTransformer):
 
         return {"results": QAResults(results)}
 
-    @overrides
     def validation_epoch_end(
         self, outputs: List[dict], data_type: str = "valid", write_predictions: bool = False
     ) -> None:
@@ -117,7 +112,7 @@ class MRCTransformer(BaseTransformer):
 
         for k, metric in self.metrics.items():
             metric(preds, examples)
-            self.log(f"{data_type}/{k}", metric, on_step=False, on_epoch=True, logger=True)
+            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
 
     @staticmethod
     def add_specific_args(parser: argparse.ArgumentParser, root_dir: str) -> argparse.ArgumentParser:

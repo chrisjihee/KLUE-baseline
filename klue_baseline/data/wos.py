@@ -9,7 +9,6 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
 import pytorch_lightning as pl
 import torch
-from overrides import overrides
 from torch.utils.data import DataLoader, Dataset
 from transformers import PreTrainedTokenizer
 
@@ -87,15 +86,12 @@ class WoSDataModule(pl.LightningDataModule):
             collate_fn=self.processor.collate_fn,
         )
 
-    @overrides
     def train_dataloader(self) -> DataLoader:
         return self.get_dataloader("train", self.hparams.train_batch_size, shuffle=True)
 
-    @overrides
     def val_dataloader(self) -> DataLoader:
         return self.get_dataloader("dev", self.hparams.eval_batch_size, shuffle=False)
 
-    @overrides
     def test_dataloader(self) -> DataLoader:
         return self.get_dataloader("test", self.hparams.eval_batch_size, shuffle=False)
 
@@ -147,21 +143,18 @@ class WoSProcessor(DataProcessor):
         self.gating2id = {"none": 0, "dontcare": 1, "ptr": 2, "yes": 3, "no": 4}
         self.id2gating = {v: k for k, v in self.gating2id.items()}
 
-    @overrides
     def get_train_dataset(self, data_dir: str, file_name: str = None) -> Dataset:
         file_path = os.path.join(data_dir, file_name or self.origin_train_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "train")
 
-    @overrides
     def get_dev_dataset(self, data_dir: str, file_name: str = None) -> Dataset:
         file_path = os.path.join(data_dir, file_name or self.origin_dev_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "dev")
 
-    @overrides
     def get_test_dataset(self, data_dir: str, file_name: str = None) -> Dataset:
         file_path = os.path.join(data_dir, file_name or self.origin_test_file_name)
 
@@ -172,7 +165,6 @@ class WoSProcessor(DataProcessor):
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "test")
 
-    @overrides
     def get_labels(self) -> None:
         pass
 

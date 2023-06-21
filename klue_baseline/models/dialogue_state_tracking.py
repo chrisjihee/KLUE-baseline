@@ -9,7 +9,6 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from overrides import overrides
 from transformers import AutoModel
 
 from klue_baseline.models import BaseTransformer, Mode
@@ -83,7 +82,6 @@ class DSTTransformer(BaseTransformer):
         """Share the embedding layer for both encoder and decoder"""
         self.decoder.embed.weight = self.encoder.embeddings.word_embeddings.weight
 
-    @overrides
     def forward(
         self,
         input_ids: torch.Tensor,
@@ -109,7 +107,6 @@ class DSTTransformer(BaseTransformer):
 
         return all_point_outputs, all_gate_outputs
 
-    @overrides
     def training_step(self, batch: Sequence[torch.Tensor], batch_idx: int) -> Dict[str, torch.Tensor]:
         input_ids, segment_ids, input_masks, gating_ids, target_ids, _, _ = batch
 
@@ -128,13 +125,12 @@ class DSTTransformer(BaseTransformer):
         )
         loss = loss_gen + loss_gate
 
-        self.log("train/loss", loss)
-        self.log("train/loss_gen", loss_gen)
-        self.log("train/loss_gate", loss_gate)
+        self.log("train-loss", loss)
+        self.log("train-loss_gen", loss_gen)
+        self.log("train-loss_gate", loss_gate)
 
         return {"loss": loss}
 
-    @overrides
     def validation_step(
         self, batch: Sequence[torch.Tensor], batch_idx: int, data_type: str = "valid", write_predictions: bool = False
     ) -> Dict[str, Any]:
@@ -151,7 +147,6 @@ class DSTTransformer(BaseTransformer):
         # return val_output_dict
         return {"results": dst_result}
 
-    @overrides
     def validation_epoch_end(
         self, outputs: List[Dict[str, List[str]]], data_type: str = "valid", write_predictions: bool = False
     ) -> None:
@@ -177,7 +172,7 @@ class DSTTransformer(BaseTransformer):
         self._set_metrics_device()
         for k, metric in self.metrics.items():
             metric(prs, gts)
-            self.log(f"{data_type}/{k}", metric, on_step=False, on_epoch=True, logger=True)
+            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
 
     def write_prediction_file(
         self, prs: Sequence[Sequence[str]], gts: Sequence[Sequence[str]], guids: Sequence[str]

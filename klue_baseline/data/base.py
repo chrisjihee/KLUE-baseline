@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional, Union
 
 import pytorch_lightning as pl
-from overrides import overrides
 from torch.utils.data import DataLoader, Dataset
 from transformers import PreTrainedTokenizer
 
@@ -131,15 +130,12 @@ class KlueDataModule(pl.LightningDataModule):
             num_workers=self.hparams.num_workers,
         )
 
-    @overrides
     def train_dataloader(self) -> DataLoader:
         return self.get_dataloader("train", self.hparams.train_batch_size, shuffle=True)
 
-    @overrides
     def val_dataloader(self) -> DataLoader:
         return self.get_dataloader("dev", self.hparams.eval_batch_size, shuffle=False)
 
-    @overrides
     def test_dataloader(self) -> DataLoader:
         return self.get_dataloader("test", self.hparams.eval_batch_size, shuffle=False)
 

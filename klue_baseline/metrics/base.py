@@ -1,7 +1,6 @@
 from typing import Any, Callable, Optional
 
 import torch
-from overrides import overrides
 from pytorch_lightning.metrics import Metric
 from pytorch_lightning.utilities import rank_zero_warn
 
@@ -88,7 +87,6 @@ class LabelRequiredMetric(BaseMetric):
         )
         self.label_info = None
 
-    @overrides
     def update(self, preds: torch.Tensor, targets: torch.Tensor, label_info: Optional[Any] = None) -> None:
         """Updates state with predictions and targets.
 
@@ -103,7 +101,6 @@ class LabelRequiredMetric(BaseMetric):
         if self.label_info is None:
             self.label_info = label_info
 
-    @overrides
     def compute(self) -> Any:
         """Computes metric value over state."""
 

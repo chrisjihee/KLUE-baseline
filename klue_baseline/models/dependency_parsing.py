@@ -8,7 +8,6 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from overrides import overrides
 from torch.nn.parameter import Parameter
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 from transformers import AutoModel
@@ -85,7 +84,6 @@ class DPTransformer(BaseTransformer):
         self.attention = BiAttention(self.arc_space, self.arc_space, 1)
         self.bilinear = BiLinear(self.type_space, self.type_space, self.n_dp_labels)
 
-    @overrides
     def forward(
         self,
         bpe_head_mask: torch.Tensor,
@@ -142,7 +140,6 @@ class DPTransformer(BaseTransformer):
 
         return out_arc, out_type
 
-    @overrides
     def training_step(self, batch: List[torch.Tensor], batch_idx: int) -> dict:
         input_ids, masks, ids, max_word_length = batch
         attention_mask, bpe_head_mask, bpe_tail_mask, mask_e, mask_d = masks
@@ -179,13 +176,12 @@ class DPTransformer(BaseTransformer):
         loss_type = -loss_type.sum() / num
         loss = loss_arc + loss_type
 
-        self.log("train/loss_arc", loss_arc)
-        self.log("train/loss_type", loss_type)
-        self.log("train/loss", loss)
+        self.log("train-loss_arc", loss_arc)
+        self.log("train-loss_type", loss_type)
+        self.log("train-loss", loss)
 
         return {"loss": loss}
 
-    @overrides
     def validation_step(self, batch: List[torch.Tensor], batch_idx: int, data_type: str = "valid") -> dict:
         input_ids, masks, ids, max_word_length = batch
         attention_mask, bpe_head_mask, bpe_tail_mask, mask_e, mask_d = masks
@@ -216,7 +212,6 @@ class DPTransformer(BaseTransformer):
 
         return {"preds": preds, "labels": labels}
 
-    @overrides
     def validation_epoch_end(
         self, outputs: List[Dict[str, DPResult]], data_type: str = "valid", write_predictions: bool = False
     ) -> None:
@@ -232,7 +227,7 @@ class DPTransformer(BaseTransformer):
         self._set_metrics_device()
         for k, metric in self.metrics.items():
             metric(all_preds, all_labels)
-            self.log(f"{data_type}/{k}", metric, on_step=False, on_epoch=True, logger=True)
+            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
 
     def write_prediction_file(self, prs: List[DPResult], gts: List[DPResult]) -> None:
         """Write head, head type predictions and corresponding labels to json file. Each line indicates a word."""

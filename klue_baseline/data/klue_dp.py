@@ -5,7 +5,6 @@ from typing import Any, List, Optional, Tuple
 
 import pytorch_lightning as pl
 import torch
-from overrides import overrides
 from torch.utils.data import DataLoader, TensorDataset
 from transformers import PreTrainedTokenizer
 
@@ -104,15 +103,12 @@ class KlueDPDataModule(pl.LightningDataModule):
             collate_fn=self.processor.collate_fn,
         )
 
-    @overrides
     def train_dataloader(self) -> DataLoader:
         return self.get_dataloader("train", self.hparams.train_batch_size, shuffle=True)
 
-    @overrides
     def val_dataloader(self) -> DataLoader:
         return self.get_dataloader("dev", self.hparams.eval_batch_size, shuffle=False)
 
-    @overrides
     def test_dataloader(self) -> DataLoader:
         return self.get_dataloader("test", self.hparams.eval_batch_size, shuffle=False)
 
@@ -377,21 +373,18 @@ class KlueDPProcessor(DataProcessor):
             all_pos_ids,
         )
 
-    @overrides
     def get_train_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_train_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "train")
 
-    @overrides
     def get_dev_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_dev_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "dev")
 
-    @overrides
     def get_test_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_test_file_name)
 
@@ -402,7 +395,6 @@ class KlueDPProcessor(DataProcessor):
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "test")
 
-    @overrides
     def get_labels(self) -> List[str]:
         return get_dep_labels()
 

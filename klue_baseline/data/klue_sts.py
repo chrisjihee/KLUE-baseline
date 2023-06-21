@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 import torch
-from overrides import overrides
 from torch.utils.data import TensorDataset
 from transformers import PreTrainedTokenizer
 
@@ -57,21 +56,18 @@ class KlueSTSProcessor(DataProcessor):
     def __init__(self, args: argparse.Namespace, tokenizer: PreTrainedTokenizer) -> None:
         super().__init__(args, tokenizer)
 
-    @overrides
     def get_train_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_train_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "train")
 
-    @overrides
     def get_dev_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_dev_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "dev")
 
-    @overrides
     def get_test_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_test_file_name)
 
@@ -82,7 +78,6 @@ class KlueSTSProcessor(DataProcessor):
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "test")
 
-    @overrides
     def get_labels(self) -> List[str]:
         return []
 

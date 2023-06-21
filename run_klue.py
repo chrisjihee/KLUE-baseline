@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 
@@ -65,7 +66,7 @@ def add_general_args(parser: argparse.ArgumentParser, root_dir: str) -> argparse
     parser.add_argument("--metric_key", type=str, default="loss", help="The name of monitoring metric")
     parser.add_argument(
         "--patience",
-        default=5,
+        default=100000,
         type=int,
         help="The number of validation epochs with no improvement after which training will be stopped.",
     )
@@ -89,14 +90,14 @@ def make_klue_trainer(
     pl.seed_everything(args.seed)
 
     # Logging
-    csv_logger = CSVLogger(args.output_dir, name=args.task)
+    csv_logger = CSVLogger(args.output_dir, name=args.task, version=datetime.now().strftime("%m%d_%H%M%S"))
     args.output_dir = csv_logger.log_dir
 
     if logging_callback is None:
         logging_callback = LoggingCallback()
 
     # add custom checkpoints
-    metric_key = f"valid/{args.metric_key}"
+    metric_key = f"valid-{args.metric_key}"
     if checkpoint_callback is None:
         filename_for_metric = "{" + metric_key + ":.2f}"
 
@@ -118,7 +119,7 @@ def make_klue_trainer(
     args.num_gpus = 0 if args.gpus is None else len(args.gpus)
     if args.num_gpus > 1:
         train_params["accelerator"] = "dp"
-    train_params["val_check_interval"] = 0.25  # check validation set 4 times during a training epoch
+    train_params["val_check_interval"] = 0.05  # check validation set 20 times during a training epoch
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
     train_params["profiler"] = extra_train_kwargs.get("profiler", None)

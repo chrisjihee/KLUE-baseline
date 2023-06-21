@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import List, Optional
 
 import torch
-from overrides import overrides
 from torch.utils.data import TensorDataset
 from transformers import PreTrainedTokenizer
 
@@ -29,21 +28,18 @@ class KlueNERProcessor(DataProcessor):
         super().__init__(args, tokenizer)
         self.tokenizer_type = check_tokenizer_type(tokenizer)  # One of the ["xlm-sp", "bert-wp", "other']
 
-    @overrides
     def get_train_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_train_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "train")
 
-    @overrides
     def get_dev_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_dev_file_name)
 
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "valid")
 
-    @overrides
     def get_test_dataset(self, data_dir: str, file_name: Optional[str] = None) -> TensorDataset:
         file_path = os.path.join(data_dir, file_name or self.origin_test_file_name)
 
@@ -54,7 +50,6 @@ class KlueNERProcessor(DataProcessor):
         logger.info(f"Loading from {file_path}")
         return self._create_dataset(file_path, "test")
 
-    @overrides
     def get_labels(self) -> List[str]:
         return ["B-PS", "I-PS", "B-LC", "I-LC", "B-OG", "I-OG", "B-DT", "I-DT", "B-TI", "I-TI", "B-QT", "I-QT", "O"]
 

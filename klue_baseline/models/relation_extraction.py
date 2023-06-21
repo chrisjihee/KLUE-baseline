@@ -2,7 +2,6 @@ import argparse
 from typing import Dict, List, Tuple
 
 import torch
-from overrides import overrides
 
 from .mode import Mode
 from .sequence_classification import SCTransformer
@@ -16,7 +15,6 @@ class RETransformer(SCTransformer):
         super().__init__(hparams, metrics=metrics)
         self.label_list = hparams.label_list
 
-    @overrides
     def validation_epoch_end(
         self, outputs: List[Dict[str, torch.Tensor]], data_type: str = "valid", write_predictions: bool = False
     ) -> None:
@@ -30,13 +28,12 @@ class RETransformer(SCTransformer):
 
         micro_f1 = self.metrics["micro_f1"]
         micro_f1(preds, labels, self.label_list)
-        self.log(f"{data_type}/micro_f1", micro_f1, on_step=False, on_epoch=True, logger=True)
+        self.log(f"{data_type}-micro_f1", micro_f1, on_step=False, on_epoch=True, logger=True)
 
         auprc = self.metrics["auprc"]
         auprc(probs, labels)
-        self.log(f"{data_type}/auprc", auprc, on_step=False, on_epoch=True, logger=True)
+        self.log(f"{data_type}-auprc", auprc, on_step=False, on_epoch=True, logger=True)
 
-    @overrides
     def _convert_outputs_to_preds(self, outputs: List[Dict[str, torch.Tensor]]) -> Tuple[torch.Tensor, torch.Tensor]:
         # logits: (B, num_labels)
         logits = torch.cat([output["logits"] for output in outputs], dim=0)
