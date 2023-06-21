@@ -1,6 +1,7 @@
 import argparse
 import logging
 import math
+import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -19,14 +20,17 @@ from transformers.optimization import (
 
 logger = logging.getLogger(__name__)
 
-logger.warning(f"Used Libraries:")
-for lib in ['torch', 'pytorch_lightning', 'transformers', 'scikit-learn', 'seqeval']:
-    logger.warning(f">> {lib:20s}: {importlib_metadata.version(lib)}")
+logger.warning(f"Version info:")
+for target in ['python', 'torch', 'pytorch_lightning', 'transformers', 'scikit-learn', 'seqeval']:
+    if target == 'python':
+        logger.warning(f">> {target:20s}: {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+    else:
+        logger.warning(f">> {target:20s}: {importlib_metadata.version(target)}")
 logger.warning('')
 
 logger.warning(f"CUDA device is{'' if torch.cuda.is_available() else ' NOT'} available{f': arch_list={torch.cuda.get_arch_list()}' if torch.cuda.is_available() else ''}")
-for gpu_id in range(torch.cuda.device_count()):
-    logger.warning(f">> device[{gpu_id}]: {torch.cuda.get_device_name(gpu_id)}")
+for i in range(torch.cuda.device_count()):
+    logger.warning(f">> {f'CUDA device #{i}':20s}: {torch.cuda.get_device_name(i)} ({torch.cuda.get_device_properties(i).total_memory / 1024 ** 3:.1f}GB)")
 logger.warning('')
 
 # update this and the import above to support new schedulers from transformers.optimization
@@ -46,15 +50,15 @@ class BaseTransformer(pl.LightningModule):
     USE_TOKEN_TYPE_MODELS = ["bert", "xlnet", "electra"]
 
     def __init__(
-        self,
-        hparams: argparse.Namespace,
-        num_labels: Optional[int] = None,
-        mode: str = "base",
-        config: Optional[PretrainedConfig] = None,
-        model_type: Optional[str] = None,
-        tokenizer: Optional[PreTrainedTokenizer] = None,
-        metrics: Dict[str, Any] = {},
-        **config_kwargs: Dict[str, Any],
+            self,
+            hparams: argparse.Namespace,
+            num_labels: Optional[int] = None,
+            mode: str = "base",
+            config: Optional[PretrainedConfig] = None,
+            model_type: Optional[str] = None,
+            tokenizer: Optional[PreTrainedTokenizer] = None,
+            metrics: Dict[str, Any] = {},
+            **config_kwargs: Dict[str, Any],
     ) -> None:
         super().__init__()
 
@@ -154,7 +158,7 @@ class BaseTransformer(pl.LightningModule):
         raise NotImplementedError
 
     def validation_epoch_end(
-        self, outputs: List[Dict[str, torch.Tensor]], data_type: str = "valid", write_predictions: bool = False
+            self, outputs: List[Dict[str, torch.Tensor]], data_type: str = "valid", write_predictions: bool = False
     ) -> None:
         preds = self._convert_outputs_to_preds(outputs)
         labels = torch.cat([output["labels"] for output in outputs], dim=0)
