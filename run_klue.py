@@ -21,7 +21,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def get_run_version(release_ver: str = "1.1.1", now: str = datetime.now().strftime('%m%d_%H%M%S')) -> str:
+def get_run_version(release_ver: str = "1.1.2", now: str = datetime.now().strftime('%m%d_%H%M%S')) -> str:
     major, minor, micro = map(int, release_ver.split("."))
     return f"v{major}.{minor}.{micro + 1}-{now}"
 
