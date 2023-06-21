@@ -1,12 +1,11 @@
 # Framework
-torch==1.7.0
+--extra-index-url https://download.pytorch.org/whl/cu110
+torch==1.7.1
 transformers==3.5.1
 pytorch-lightning==1.1.0
-fsspec==2021.4.0 # due to pytorch lightning
 
 # Utils
-overrides==3.1.0
-dataclasses; python_version<"3.7"
+importlib-metadata
 
 # Metrics
 scikit-learn==0.24.1
