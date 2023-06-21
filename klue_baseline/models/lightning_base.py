@@ -4,7 +4,7 @@ import math
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
-import pkg_resources
+import importlib_metadata
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
@@ -19,15 +19,15 @@ from transformers.optimization import (
 
 logger = logging.getLogger(__name__)
 
-try:
-    pkg = "pytorch_lightning"
-    min_ver = "1.0.4"
-    pkg_resources.require(f"{pkg}>={min_ver}")
-except pkg_resources.VersionConflict:
-    logger.warning(
-        f"{pkg}>={min_ver} is required for a normal functioning of this module, but found {pkg}=={pkg_resources.get_distribution(pkg).version}. Try pip install -r examples/requirements.txt"
-    )
+logger.warning(f"Used Libraries:")
+for lib in ['torch', 'pytorch_lightning', 'transformers', 'scikit-learn', 'seqeval']:
+    logger.warning(f">> {lib:20s}: {importlib_metadata.version(lib)}")
+logger.warning('')
 
+logger.warning(f"CUDA device is{'' if torch.cuda.is_available() else ' NOT'} available{f': arch_list={torch.cuda.get_arch_list()}' if torch.cuda.is_available() else ''}")
+for gpu_id in range(torch.cuda.device_count()):
+    logger.warning(f">> device[{gpu_id}]: {torch.cuda.get_device_name(gpu_id)}")
+logger.warning('')
 
 # update this and the import above to support new schedulers from transformers.optimization
 arg_to_scheduler = {
