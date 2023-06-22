@@ -1,0 +1,3 @@
+valid-loss = 0.11907319724559784
+valid-entity_macro_f1 = 85.78781470877071
+valid-character_macro_f1 = 91.15836775970139
