@@ -189,7 +189,7 @@ def main() -> None:
         trainer.fit(**task.to_dict())
 
         # load the best checkpoint automatically
-        trainer.get_model().eval_dataset_type = "valid"
+        trainer.lightning_module.eval_dataset_type = "valid"  # OR trainer.model.eval_dataset_type = "valid"
         val_results = trainer.test(dataloaders=task.val_loader, verbose=False)[0]
         print("-" * 80)
 
