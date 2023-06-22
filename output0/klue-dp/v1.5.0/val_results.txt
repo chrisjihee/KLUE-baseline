@@ -1,0 +1,4 @@
+valid-uas_macro_f1 = 89.68067932128906
+valid-uas_micro_f1 = 93.37016296386719
+valid-las_macro_f1 = 85.03666687011719
+valid-las_micro_f1 = 90.88397979736328
