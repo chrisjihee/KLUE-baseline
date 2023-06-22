@@ -41,7 +41,7 @@ num_gpus: 1
 num_labels: 13
 num_sanity_val_steps: 2
 num_workers: 4
-output_dir: output1/klue-ner/v1.2.2-0622_153113
+output_dir: output1/klue-ner/v1.3.0.dev0-0622_190106
 patience: 100000
 seed: 42
 task: klue-ner
