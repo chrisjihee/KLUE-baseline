@@ -10,8 +10,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import CSVLogger
 
-import klue_baseline
-from klue_baseline import KLUE_TASKS
+from klue_baseline import KLUE_TASKS, __version__
 from klue_baseline.utils import Command, LoggingCallback
 
 logging.basicConfig(
@@ -23,8 +22,11 @@ logger = logging.getLogger(__name__)
 
 
 def get_run_version(timestamp: str = datetime.now().strftime('%m%d_%H%M%S')) -> str:
-    major, minor, micro = map(int, klue_baseline.__version__.split("."))
-    return f"v{major}.{minor}.{micro + 1}-{timestamp}"
+    if len(__version__.split(".")) == 3:
+        major, minor, patch = __version__.split(".")
+        return f"v{major}.{minor}.{int(patch) + 1}-{timestamp}"
+    else:
+        return f"v{__version__}-{timestamp}"
 
 
 def add_general_args(parser: argparse.ArgumentParser, root_dir: str) -> argparse.ArgumentParser:

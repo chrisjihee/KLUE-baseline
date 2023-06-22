@@ -18,11 +18,15 @@ from transformers.optimization import (
     get_polynomial_decay_schedule_with_warmup,
 )
 
+from klue_baseline import __version__
+
 logger = logging.getLogger(__name__)
 
-logger.warning(f"Version info:")
-for target in ['python', 'torch', 'pytorch_lightning', 'transformers', 'scikit-learn', 'seqeval']:
-    if target == 'python':
+logger.warning(f"Version information:")
+for target in ['KLUE-baseline', 'python', 'torch', 'pytorch_lightning', 'transformers', 'scikit-learn', 'seqeval']:
+    if target == 'KLUE-baseline':
+        logger.warning(f">> {target:20s}: {__version__}")
+    elif target == 'python':
         logger.warning(f">> {target:20s}: {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
     else:
         logger.warning(f">> {target:20s}: {importlib_metadata.version(target)}")
