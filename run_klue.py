@@ -190,7 +190,7 @@ def main() -> None:
 
         # load the best checkpoint automatically
         trainer.get_model().eval_dataset_type = "valid"
-        val_results = trainer.test(test_dataloaders=task.val_loader, verbose=False)[0]
+        val_results = trainer.test(dataloaders=task.val_loader, verbose=False)[0]
         print("-" * 80)
 
         output_val_results_file = os.path.join(args.output_dir, "val_results.txt")
@@ -201,9 +201,9 @@ def main() -> None:
         print("-" * 80)
 
     elif command == Command.Evaluate:
-        trainer.test(task.model, test_dataloaders=task.val_loader)
+        trainer.test(task.model, dataloaders=task.val_loader)
     elif command == Command.Test:
-        trainer.test(task.model, test_dataloaders=task.test_loader)
+        trainer.test(task.model, dataloaders=task.test_loader)
 
 
 if __name__ == "__main__":

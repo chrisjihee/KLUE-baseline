@@ -86,6 +86,6 @@ class KlueTask:
     def to_dict(self) -> dict:
         return {
             "model": self.model,
-            "train_dataloader": self.train_loader,
+            "train_dataloaders": self.train_loader,
             "val_dataloaders": self.val_loader,
         }
