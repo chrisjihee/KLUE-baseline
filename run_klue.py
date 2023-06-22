@@ -114,6 +114,7 @@ def make_klue_trainer(
             save_top_k=1,
             mode="max",
         )
+        extra_callbacks.append(checkpoint_callback)
     early_stopping_callback = EarlyStopping(monitor=metric_key, patience=args.patience, mode=args.early_stopping_mode)
     extra_callbacks.append(early_stopping_callback)
 
@@ -135,7 +136,6 @@ def make_klue_trainer(
         weights_summary=None,
         callbacks=[logging_callback] + extra_callbacks,
         logger=csv_logger,
-        checkpoint_callback=checkpoint_callback,
         **train_params,
     )
 
