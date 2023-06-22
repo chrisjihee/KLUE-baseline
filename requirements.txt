@@ -1,13 +1,16 @@
 # Framework
---extra-index-url https://download.pytorch.org/whl/cu111
-torch==1.8.1
-transformers==4.9.1
-pytorch-lightning==1.4.0
+--extra-index-url https://download.pytorch.org/whl/cu113
+torch==1.10.0
+transformers==4.12.3
+pytorch-lightning==1.5.0
+
+# Metrics
+torchmetrics==0.6.0
+scikit-learn==1.0.1
+seqeval
 
 # Utils
 importlib-metadata
-
-# Metrics
-torchmetrics==0.4.1
-scikit-learn==0.24.2
-seqeval
+tensorboard==2.7.0
+setuptools==58.4.0
+protobuf==3.19.1
