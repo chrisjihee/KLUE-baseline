@@ -111,8 +111,9 @@ class MRCTransformer(BaseTransformer):
         )
 
         for k, metric in self.metrics.items():
-            metric(preds, examples)
-            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
+            metric.reset()
+            metric.update(preds, examples)
+            self.log(f"{data_type}-{k}", metric.compute(), on_step=False, on_epoch=True, logger=True)
 
     @staticmethod
     def add_specific_args(parser: argparse.ArgumentParser, root_dir: str) -> argparse.ArgumentParser:

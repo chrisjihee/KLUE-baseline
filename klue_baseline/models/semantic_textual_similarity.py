@@ -28,8 +28,9 @@ class STSTransformer(SCTransformer):
 
         self._set_metrics_device()
         for k, metric in self.metrics.items():
-            metric(preds, labels)
-            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
+            metric.reset()
+            metric.update(preds, labels)
+            self.log(f"{data_type}-{k}", metric.compute(), on_step=False, on_epoch=True, logger=True)
 
     def _convert_outputs_to_preds(self, outputs: List[Dict[str, torch.Tensor]]) -> torch.Tensor:
         logits = torch.cat([output["logits"] for output in outputs], dim=0)

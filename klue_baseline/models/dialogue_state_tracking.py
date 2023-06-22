@@ -171,8 +171,9 @@ class DSTTransformer(BaseTransformer):
 
         self._set_metrics_device()
         for k, metric in self.metrics.items():
-            metric(prs, gts)
-            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
+            metric.reset()
+            metric.update(prs, gts)
+            self.log(f"{data_type}-{k}", metric.compute(), on_step=False, on_epoch=True, logger=True)
 
     def write_prediction_file(
         self, prs: Sequence[Sequence[str]], gts: Sequence[Sequence[str]], guids: Sequence[str]

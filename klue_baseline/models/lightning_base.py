@@ -168,8 +168,9 @@ class BaseTransformer(pl.LightningModule):
 
         self._set_metrics_device()
         for k, metric in self.metrics.items():
-            metric(preds, labels)
-            self.log(f"{data_type}/{k}", metric, on_step=False, on_epoch=True, logger=True)
+            metric.reset()
+            metric.update(preds, labels)
+            self.log(f"{data_type}-{k}", metric.compute(), on_step=False, on_epoch=True, logger=True)
 
     def test_step(self, batch: List[torch.Tensor], batch_idx: int) -> Dict[str, torch.Tensor]:
         assert self.eval_dataset_type in {"valid", "test"}

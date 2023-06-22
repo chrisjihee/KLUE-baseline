@@ -27,12 +27,14 @@ class RETransformer(SCTransformer):
         self._set_metrics_device()
 
         micro_f1 = self.metrics["micro_f1"]
-        micro_f1(preds, labels, self.label_list)
-        self.log(f"{data_type}-micro_f1", micro_f1, on_step=False, on_epoch=True, logger=True)
+        micro_f1.reset()
+        micro_f1.update(preds, labels, self.label_list)
+        self.log(f"{data_type}-micro_f1", micro_f1.compute(), on_step=False, on_epoch=True, logger=True)
 
         auprc = self.metrics["auprc"]
-        auprc(probs, labels)
-        self.log(f"{data_type}-auprc", auprc, on_step=False, on_epoch=True, logger=True)
+        auprc.reset()
+        auprc.update(probs, labels)
+        self.log(f"{data_type}-auprc", auprc.compute(), on_step=False, on_epoch=True, logger=True)
 
     def _convert_outputs_to_preds(self, outputs: List[Dict[str, torch.Tensor]]) -> Tuple[torch.Tensor, torch.Tensor]:
         # logits: (B, num_labels)

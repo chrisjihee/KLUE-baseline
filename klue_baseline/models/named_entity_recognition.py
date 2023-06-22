@@ -156,8 +156,9 @@ class NERTransformer(BaseTransformer):
             self.predictions = list_of_character_preds
 
         for k, metric in self.metrics.items():
-            metric(list_of_character_preds, list_of_originals, label_list)
-            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
+            metric.reset()
+            metric.update(list_of_character_preds, list_of_originals, label_list)
+            self.log(f"{data_type}-{k}", metric.compute(), on_step=False, on_epoch=True, logger=True)
 
     def tokenizer_out_aligner(self, t_in: str, t_out: List[str], strip_char: str = "##") -> List[str]:
         """Aligns with character-level labels after tokenization.

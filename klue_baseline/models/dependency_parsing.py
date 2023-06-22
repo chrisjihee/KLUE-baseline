@@ -226,8 +226,9 @@ class DPTransformer(BaseTransformer):
 
         self._set_metrics_device()
         for k, metric in self.metrics.items():
-            metric(all_preds, all_labels)
-            self.log(f"{data_type}-{k}", metric, on_step=False, on_epoch=True, logger=True)
+            metric.reset()
+            metric.update(all_preds, all_labels)
+            self.log(f"{data_type}-{k}", metric.compute(), on_step=False, on_epoch=True, logger=True)
 
     def write_prediction_file(self, prs: List[DPResult], gts: List[DPResult]) -> None:
         """Write head, head type predictions and corresponding labels to json file. Each line indicates a word."""
