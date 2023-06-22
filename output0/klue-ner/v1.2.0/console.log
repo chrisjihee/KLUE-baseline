@@ -1,0 +1,717 @@
+(KLUE-baseline) chrisjihee@ptlm3:~/proj/KLUE-baseline$ bash run_ner-m.sh
+Version info:
+>> python              : 3.9.16
+>> torch               : 1.7.1+cu110
+>> pytorch_lightning   : 1.2.0
+>> transformers        : 4.2.2
+>> scikit-learn        : 0.24.1
+>> seqeval             : 1.2.2
+
+CUDA device is available: arch_list=['sm_37', 'sm_50', 'sm_60', 'sm_70', 'sm_75', 'sm_80']
+>> CUDA device #0      : NVIDIA RTX A6000 (47.5GB)
+>> CUDA device #1      : NVIDIA RTX A6000 (47.5GB)
+>> CUDA device #2      : NVIDIA RTX A6000 (47.5GB)
+>> CUDA device #3      : NVIDIA RTX A6000 (47.5GB)
+
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/pytorch_lightning/utilities/distributed.py:50: UserWarning: MetricBase will save all targets and predictions in buffer. For large datasets this may lead to large memory footprint.
+  warnings.warn(*args, **kwargs)
+06/22/2023 07:55:17 - INFO - __main__ - Arguments:
+06/22/2023 07:55:17 - INFO - __main__ -                         command : train
+06/22/2023 07:55:17 - INFO - __main__ -                            task : klue-ner
+06/22/2023 07:55:17 - INFO - __main__ -                      output_dir : output0
+06/22/2023 07:55:17 - INFO - __main__ -                            gpus : [2]
+06/22/2023 07:55:17 - INFO - __main__ -                            fp16 : False
+06/22/2023 07:55:17 - INFO - __main__ -            num_sanity_val_steps : 2
+06/22/2023 07:55:17 - INFO - __main__ -                       tpu_cores : None
+06/22/2023 07:55:17 - INFO - __main__ -               gradient_clip_val : 1.0
+06/22/2023 07:55:17 - INFO - __main__ -         accumulate_grad_batches : 1
+06/22/2023 07:55:17 - INFO - __main__ -                            seed : 42
+06/22/2023 07:55:17 - INFO - __main__ -                      metric_key : character_macro_f1
+06/22/2023 07:55:17 - INFO - __main__ -                        patience : 100000
+06/22/2023 07:55:17 - INFO - __main__ -             early_stopping_mode : max
+06/22/2023 07:55:17 - INFO - __main__ -                        data_dir : data/klue-ner-mini
+06/22/2023 07:55:17 - INFO - __main__ -                 train_file_name : None
+06/22/2023 07:55:17 - INFO - __main__ -                   dev_file_name : None
+06/22/2023 07:55:17 - INFO - __main__ -                  test_file_name : None
+06/22/2023 07:55:17 - INFO - __main__ -                     num_workers : 4
+06/22/2023 07:55:17 - INFO - __main__ -                train_batch_size : 32
+06/22/2023 07:55:17 - INFO - __main__ -                 eval_batch_size : 64
+06/22/2023 07:55:17 - INFO - __main__ -                  max_seq_length : 64
+06/22/2023 07:55:17 - INFO - __main__ -              model_name_or_path : pretrained-com/KLUE-RoBERTa
+06/22/2023 07:55:17 - INFO - __main__ -                     config_name :
+06/22/2023 07:55:17 - INFO - __main__ -                  tokenizer_name : None
+06/22/2023 07:55:17 - INFO - __main__ -                       cache_dir :
+06/22/2023 07:55:17 - INFO - __main__ -               encoder_layerdrop : None
+06/22/2023 07:55:17 - INFO - __main__ -               decoder_layerdrop : None
+06/22/2023 07:55:17 - INFO - __main__ -                         dropout : None
+06/22/2023 07:55:17 - INFO - __main__ -               attention_dropout : None
+06/22/2023 07:55:17 - INFO - __main__ -                   learning_rate : 5e-05
+06/22/2023 07:55:17 - INFO - __main__ -                    lr_scheduler : linear
+06/22/2023 07:55:17 - INFO - __main__ -                    weight_decay : 0.0
+06/22/2023 07:55:17 - INFO - __main__ -                    adam_epsilon : 1e-08
+06/22/2023 07:55:17 - INFO - __main__ -                    warmup_steps : None
+06/22/2023 07:55:17 - INFO - __main__ -                    warmup_ratio : None
+06/22/2023 07:55:17 - INFO - __main__ -                      max_epochs : 3
+06/22/2023 07:55:17 - INFO - __main__ -                       adafactor : False
+06/22/2023 07:55:17 - INFO - __main__ -              verbose_step_count : 100
+Global seed set to 42
+06/22/2023 07:55:17 - INFO - lightning - Global seed set to 42
+GPU available: True, used: True
+06/22/2023 07:55:17 - INFO - lightning - GPU available: True, used: True
+TPU available: None, using: 0 TPU cores
+06/22/2023 07:55:17 - INFO - lightning - TPU available: None, using: 0 TPU cores
+06/22/2023 07:55:17 - INFO - klue_baseline.data.utils - Using BertTokenizer for fixing tokenization result
+06/22/2023 07:55:17 - INFO - klue_baseline.data.base - Creating features from dataset file at data/klue-ner-mini
+06/22/2023 07:55:17 - INFO - klue_baseline.data.klue_ner - Loading from data/klue-ner-mini/klue-ner-v1.1_train.tsv
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_train_00000_wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 3727, 30032, 7825, 4367, 1091, 2395, 2198, 2318, 2024, 27135, 1038, 2033, 2377, 2015, 2532, 2299, 2118, 25, 2038, 2037, 5757, 2170, 2259, 8960, 5119, 5937, 551, 2454, 2232, 2200, 2021, 2138, 3792, 31302, 2200, 1902, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 2, 2, 12, 2, 3, 3, 3, 3, 12, 2, 3, 3, 3, 3, 12, 12, 10, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_train_00001_nsmc
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 1891, 22992, 2112, 9657, 2069, 3760, 8417, 2470, 3967, 12190, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_train_00002_nsmc
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 3696, 8357, 2267, 2170, 2259, 9643, 1156, 25, 2019, 2138, 8629, 2585, 2062, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_train_00003_wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 3686, 6291, 2069, 6340, 2200, 10745, 3999, 2144, 2346, 6120, 2015, 2155, 2286, 23, 2015, 2259, 1388, 6233, 25, 2019, 2429, 2366, 5943, 2069, 6140, 2318, 3622, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 12, 4, 5, 5, 5, 5, 5, 5, 5, 10, 11, 12, 12, 12, 6, 7, 7, 7, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_train_00004_nsmc
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 1823, 17053, 2031, 2079, 8040, 2470, 4483, 2522, 1932, 2157, 2178, 2079, 767, 2161, 2118, 2872, 2073, 606, 2351, 2079, 19233, 5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 12, 12, 12, 12, 0, 1, 1, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.base - Prepare train dataset (Count: 5000)
+06/22/2023 07:55:21 - INFO - klue_baseline.data.base - Creating features from dataset file at data/klue-ner-mini
+06/22/2023 07:55:21 - INFO - klue_baseline.data.klue_ner - Loading from data/klue-ner-mini/klue-ner-v1.1_dev.tsv
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00000-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 3858, 2073, 918, 12070, 15570, 4248, 2069, 3759, 2470, 1119, 2483, 2079, 900, 12, 4987, 13, 604, 12070, 3811, 648, 2391, 12, 5013, 13, 1370, 886, 3879, 2211, 2069, 555, 2073, 4456, 2200, 4784, 2354, 11499, 2371, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 4, 12, 12, 12, 12, 12, 12, 12, 12, 0, 12, 12, 12, 12, 10, 12, 12, 12, 12, 0, 12, 12, 10, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00001-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 38, 1370, 2259, 6150, 17057, 6050, 2304, 2052, 11549, 2897, 575, 8969, 1381, 1295, 1415, 2359, 2088, 16, 4200, 2052, 1560, 2073, 3723, 2170, 7567, 1295, 1513, 2015, 2154, 2069, 4156, 2414, 2115, 2181, 37, 1370, 2138, 831, 5292, 2205, 2118, 1380, 2886, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00002-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 5193, 37, 2444, 2079, 21, 2491, 2478, 20034, 4435, 2073, 4233, 7785, 2532, 16, 5193, 38, 2444, 2073, 6515, 2532, 2052, 2359, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 10, 11, 11, 12, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00003-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 11, 11603, 11, 1497, 25, 27771, 4427, 3902, 3634, 27135, 8564, 3980, 13164, 3863, 2179, 11, 17091, 28777, 11, 1498, 15372, 2200, 8423, 3771, 2200, 16, 3625, 3630, 2210, 6837, 2097, 13887, 1038, 2170, 5293, 15048, 2154, 2211, 2069, 10539, 2219, 3606, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 6, 7, 7, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 6, 7, 7, 12, 12, 6, 12, 12, 12, 10, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00004-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 17447, 2043, 13278, 12, 26013, 13, 1453, 4206, 29781, 2156, 5680, 12, 27673, 13, 1503, 7061, 2052, 5121, 13365, 1295, 1513, 16809, 11, 1889, 2259, 3717, 2170, 4937, 2118, 2138, 1642, 2073, 5454, 2031, 2073, 10731, 10103, 2069, 25120, 2088, 1513, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 0, 1, 12, 12, 0, 12, 12, 12, 0, 1, 12, 12, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.base - Prepare dev dataset (Count: 100)
+06/22/2023 07:55:21 - INFO - klue_baseline.data.base - Creating features from dataset file at data/klue-ner-mini
+06/22/2023 07:55:21 - INFO - klue_baseline.data.klue_ner - Test dataset doesn't exists. So loading dev dataset instead.
+06/22/2023 07:55:21 - INFO - klue_baseline.data.klue_ner - Loading from data/klue-ner-mini/klue-ner-v1.1_dev.tsv
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00000-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 3858, 2073, 918, 12070, 15570, 4248, 2069, 3759, 2470, 1119, 2483, 2079, 900, 12, 4987, 13, 604, 12070, 3811, 648, 2391, 12, 5013, 13, 1370, 886, 3879, 2211, 2069, 555, 2073, 4456, 2200, 4784, 2354, 11499, 2371, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 4, 12, 12, 12, 12, 12, 12, 12, 12, 0, 12, 12, 12, 12, 10, 12, 12, 12, 12, 0, 12, 12, 10, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00001-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 38, 1370, 2259, 6150, 17057, 6050, 2304, 2052, 11549, 2897, 575, 8969, 1381, 1295, 1415, 2359, 2088, 16, 4200, 2052, 1560, 2073, 3723, 2170, 7567, 1295, 1513, 2015, 2154, 2069, 4156, 2414, 2115, 2181, 37, 1370, 2138, 831, 5292, 2205, 2118, 1380, 2886, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00002-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 5193, 37, 2444, 2079, 21, 2491, 2478, 20034, 4435, 2073, 4233, 7785, 2532, 16, 5193, 38, 2444, 2073, 6515, 2532, 2052, 2359, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 10, 11, 11, 12, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 10, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00003-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 11, 11603, 11, 1497, 25, 27771, 4427, 3902, 3634, 27135, 8564, 3980, 13164, 3863, 2179, 11, 17091, 28777, 11, 1498, 15372, 2200, 8423, 3771, 2200, 16, 3625, 3630, 2210, 6837, 2097, 13887, 1038, 2170, 5293, 15048, 2154, 2211, 2069, 10539, 2219, 3606, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 12, 12, 12, 12, 6, 7, 7, 2, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 6, 7, 7, 12, 12, 6, 12, 12, 12, 10, 11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - *** Example ***
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - guid:  klue-ner-v1_dev_00004-wikitree
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - features: InputFeatures(input_ids=[0, 17447, 2043, 13278, 12, 26013, 13, 1453, 4206, 29781, 2156, 5680, 12, 27673, 13, 1503, 7061, 2052, 5121, 13365, 1295, 1513, 16809, 11, 1889, 2259, 3717, 2170, 4937, 2118, 2138, 1642, 2073, 5454, 2031, 2073, 10731, 10103, 2069, 25120, 2088, 1513, 2062, 18, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], attention_mask=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], token_type_ids=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label=[12, 0, 1, 12, 12, 0, 12, 12, 12, 0, 1, 12, 12, 0, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12])
+06/22/2023 07:55:21 - INFO - klue_baseline.data.base - Prepare test dataset (Count: 100)
+06/22/2023 07:55:21 - INFO - klue_baseline.data.utils - Using BertTokenizer for fixing tokenization result
+Some weights of the model checkpoint at pretrained-com/KLUE-RoBERTa were not used when initializing RobertaForTokenClassification: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.weight', 'lm_head.layer_norm.bias', 'lm_head.decoder.weight', 'lm_head.decoder.bias']
+- This IS expected if you are initializing RobertaForTokenClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing RobertaForTokenClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of RobertaForTokenClassification were not initialized from the model checkpoint at pretrained-com/KLUE-RoBERTa and are newly initialized: ['classifier.weight', 'classifier.bias']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+06/22/2023 07:55:23 - INFO - __main__ - Start to run the full optimization routine.
+06/22/2023 07:55:23 - INFO - pytorch_lightning.accelerators.gpu - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Epoch 0:   4%|██████████▊                                                                                                                                                                                                                                      | 9/201 [00:00<00:20,  9.42it/s, loss=1.23, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.98it/s]
+06/22/2023 07:55:36 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:55:36 - INFO - klue_baseline.utils.logging - global_step = 6
+06/22/2023 07:55:36 - INFO - klue_baseline.utils.logging - train-loss = 0.7838627099990845
+06/22/2023 07:55:36 - INFO - klue_baseline.utils.logging - valid-loss = 0.9164478182792664
+06/22/2023 07:55:36 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 0.0
+06/22/2023 07:55:36 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 6.693272217257032
+Epoch 0:   5%|███████████▉                                                                                                                                                                                                                                    | 10/201 [00:01<00:23,  8.13it/s, loss=1.23, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:   9%|██████████████████████▌                                                                                                                                                                                                                        | 19/201 [00:13<02:07,  1.43it/s, loss=0.917, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.22it/s]
+06/22/2023 07:55:48 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:55:48 - INFO - klue_baseline.utils.logging - global_step = 13
+06/22/2023 07:55:48 - INFO - klue_baseline.utils.logging - train-loss = 0.545784592628479
+06/22/2023 07:55:48 - INFO - klue_baseline.utils.logging - valid-loss = 0.5220495462417603
+06/22/2023 07:55:48 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 14.930450812803752
+06/22/2023 07:55:48 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 32.58132833238187
+Epoch 0:  10%|███████████████████████▊                                                                                                                                                                                                                       | 20/201 [00:13<02:03,  1.47it/s, loss=0.917, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  14%|██████████████████████████████████▋                                                                                                                                                                                                             | 29/201 [00:28<02:47,  1.03it/s, loss=0.66, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.33it/s]
+06/22/2023 07:56:03 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:56:03 - INFO - klue_baseline.utils.logging - global_step = 20
+06/22/2023 07:56:03 - INFO - klue_baseline.utils.logging - train-loss = 0.37336763739585876
+06/22/2023 07:56:03 - INFO - klue_baseline.utils.logging - valid-loss = 0.351548969745636
+06/22/2023 07:56:03 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 39.86932715572023
+06/22/2023 07:56:03 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 59.99049246532145
+Epoch 0:  15%|███████████████████████████████████▊                                                                                                                                                                                                            | 30/201 [00:28<02:42,  1.05it/s, loss=0.66, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  19%|██████████████████████████████████████████████▎                                                                                                                                                                                                | 39/201 [00:43<02:59,  1.11s/it, loss=0.422, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.29it/s]
+06/22/2023 07:56:18 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:56:18 - INFO - klue_baseline.utils.logging - global_step = 27
+06/22/2023 07:56:18 - INFO - klue_baseline.utils.logging - train-loss = 0.20228950679302216
+06/22/2023 07:56:18 - INFO - klue_baseline.utils.logging - valid-loss = 0.26891258358955383
+06/22/2023 07:56:18 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 54.37688677519987
+06/22/2023 07:56:18 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 68.04065194400896
+Epoch 0:  20%|███████████████████████████████████████████████▌                                                                                                                                                                                               | 40/201 [00:43<02:54,  1.09s/it, loss=0.422, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  24%|██████████████████████████████████████████████████████████▎                                                                                                                                                                                    | 49/201 [01:00<03:06,  1.23s/it, loss=0.302, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.21it/s]
+06/22/2023 07:56:35 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:56:35 - INFO - klue_baseline.utils.logging - global_step = 34
+06/22/2023 07:56:35 - INFO - klue_baseline.utils.logging - train-loss = 0.28136366605758667
+06/22/2023 07:56:35 - INFO - klue_baseline.utils.logging - valid-loss = 0.2375972419977188
+06/22/2023 07:56:35 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 50.0574043200957
+06/22/2023 07:56:35 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 66.44282751298485
+Epoch 0:  29%|██████████████████████████████████████████████████████████████████████▏                                                                                                                                                                        | 59/201 [01:09<02:47,  1.18s/it, loss=0.232, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.26it/s]
+06/22/2023 07:56:44 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:56:44 - INFO - klue_baseline.utils.logging - global_step = 41
+06/22/2023 07:56:44 - INFO - klue_baseline.utils.logging - train-loss = 0.17210517823696136
+06/22/2023 07:56:44 - INFO - klue_baseline.utils.logging - valid-loss = 0.19349029660224915
+06/22/2023 07:56:44 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 59.22184781924804
+06/22/2023 07:56:44 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 76.08472663831442
+Epoch 0:  30%|███████████████████████████████████████████████████████████████████████▎                                                                                                                                                                       | 60/201 [01:09<02:44,  1.16s/it, loss=0.232, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  34%|██████████████████████████████████████████████████████████████████████████████████                                                                                                                                                             | 69/201 [01:24<02:40,  1.22s/it, loss=0.192, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.41it/s]
+06/22/2023 07:56:59 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:56:59 - INFO - klue_baseline.utils.logging - global_step = 48
+06/22/2023 07:56:59 - INFO - klue_baseline.utils.logging - train-loss = 0.1588086485862732
+06/22/2023 07:56:59 - INFO - klue_baseline.utils.logging - valid-loss = 0.16986976563930511
+06/22/2023 07:56:59 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 71.85020855815968
+06/22/2023 07:56:59 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 84.07892728422047
+Epoch 0:  35%|███████████████████████████████████████████████████████████████████████████████████▏                                                                                                                                                           | 70/201 [01:24<02:37,  1.21s/it, loss=0.192, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  39%|█████████████████████████████████████████████████████████████████████████████████████████████▉                                                                                                                                                 | 79/201 [01:47<02:45,  1.36s/it, loss=0.158, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.27it/s]
+06/22/2023 07:57:22 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:57:22 - INFO - klue_baseline.utils.logging - global_step = 55
+06/22/2023 07:57:22 - INFO - klue_baseline.utils.logging - train-loss = 0.11474446207284927
+06/22/2023 07:57:22 - INFO - klue_baseline.utils.logging - valid-loss = 0.15662023425102234
+06/22/2023 07:57:22 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 76.46019675761166
+06/22/2023 07:57:22 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.03319422975912
+Epoch 0:  40%|███████████████████████████████████████████████████████████████████████████████████████████████                                                                                                                                                | 80/201 [01:47<02:42,  1.34s/it, loss=0.158, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  44%|█████████████████████████████████████████████████████████████████████████████████████████████████████████▊                                                                                                                                     | 89/201 [02:02<02:33,  1.37s/it, loss=0.139, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.99it/s]
+06/22/2023 07:57:37 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:57:37 - INFO - klue_baseline.utils.logging - global_step = 62
+06/22/2023 07:57:37 - INFO - klue_baseline.utils.logging - train-loss = 0.09737727046012878
+06/22/2023 07:57:37 - INFO - klue_baseline.utils.logging - valid-loss = 0.13449659943580627
+06/22/2023 07:57:37 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 76.70145172480996
+06/22/2023 07:57:37 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.17972983527795
+Epoch 0:  45%|███████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                                                                                    | 90/201 [02:02<02:30,  1.36s/it, loss=0.139, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  49%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋                                                                                                                         | 99/201 [02:17<02:21,  1.39s/it, loss=0.135, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.10it/s]
+06/22/2023 07:57:52 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:57:52 - INFO - klue_baseline.utils.logging - global_step = 69
+06/22/2023 07:57:52 - INFO - klue_baseline.utils.logging - train-loss = 0.12356637418270111
+06/22/2023 07:57:52 - INFO - klue_baseline.utils.logging - valid-loss = 0.13611654937267303
+06/22/2023 07:57:52 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 77.73478504046464
+06/22/2023 07:57:52 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 86.2609464517749
+Epoch 0:  54%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                                                             | 109/201 [02:26<02:03,  1.35s/it, loss=0.122, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.05it/s]
+06/22/2023 07:58:02 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:58:02 - INFO - klue_baseline.utils.logging - global_step = 76
+06/22/2023 07:58:02 - INFO - klue_baseline.utils.logging - train-loss = 0.13926194608211517
+06/22/2023 07:58:02 - INFO - klue_baseline.utils.logging - valid-loss = 0.1298326551914215
+06/22/2023 07:58:02 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 79.86332724722817
+06/22/2023 07:58:02 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.17283321929061
+Epoch 0:  55%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                                                                                                           | 110/201 [02:26<02:01,  1.34s/it, loss=0.122, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  59%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                                                                                                 | 119/201 [02:41<01:51,  1.36s/it, loss=0.113, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.06it/s]
+06/22/2023 07:58:17 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:58:17 - INFO - klue_baseline.utils.logging - global_step = 83
+06/22/2023 07:58:17 - INFO - klue_baseline.utils.logging - train-loss = 0.09634557366371155
+06/22/2023 07:58:17 - INFO - klue_baseline.utils.logging - valid-loss = 0.13524097204208374
+06/22/2023 07:58:17 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 80.77472839351833
+06/22/2023 07:58:17 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.65234325995931
+Epoch 0:  60%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                                                | 120/201 [02:42<01:49,  1.35s/it, loss=0.113, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  64%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋                                                                                     | 129/201 [03:00<01:40,  1.40s/it, loss=0.102, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.34it/s]
+06/22/2023 07:58:35 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:58:35 - INFO - klue_baseline.utils.logging - global_step = 90
+06/22/2023 07:58:35 - INFO - klue_baseline.utils.logging - train-loss = 0.11948440968990326
+06/22/2023 07:58:35 - INFO - klue_baseline.utils.logging - valid-loss = 0.138308584690094
+06/22/2023 07:58:35 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 78.42741139277513
+06/22/2023 07:58:35 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.48013390591483
+Epoch 0:  69%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                         | 139/201 [03:09<01:24,  1.37s/it, loss=0.105, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.13it/s]
+06/22/2023 07:58:45 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:58:45 - INFO - klue_baseline.utils.logging - global_step = 97
+06/22/2023 07:58:45 - INFO - klue_baseline.utils.logging - train-loss = 0.0879702940583229
+06/22/2023 07:58:45 - INFO - klue_baseline.utils.logging - valid-loss = 0.12533488869667053
+06/22/2023 07:58:45 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 80.58312727493622
+06/22/2023 07:58:45 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.95151601261944
+Epoch 0:  74%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                                             | 149/201 [03:36<01:15,  1.45s/it, loss=0.104, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.33it/s]
+06/22/2023 07:59:11 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:59:11 - INFO - klue_baseline.utils.logging - global_step = 104
+06/22/2023 07:59:11 - INFO - klue_baseline.utils.logging - train-loss = 0.14400885999202728
+06/22/2023 07:59:11 - INFO - klue_baseline.utils.logging - valid-loss = 0.13816910982131958
+06/22/2023 07:59:11 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 79.4554157673325
+06/22/2023 07:59:11 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.86851776316105
+Epoch 0:  79%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                 | 159/201 [03:45<00:59,  1.42s/it, loss=0.104, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.19it/s]
+06/22/2023 07:59:21 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:59:21 - INFO - klue_baseline.utils.logging - global_step = 111
+06/22/2023 07:59:21 - INFO - klue_baseline.utils.logging - train-loss = 0.12112957239151001
+06/22/2023 07:59:21 - INFO - klue_baseline.utils.logging - valid-loss = 0.13699620962142944
+06/22/2023 07:59:21 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 79.47037705608652
+06/22/2023 07:59:21 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.18461252441459
+Epoch 0:  84%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                      | 169/201 [03:55<00:44,  1.39s/it, loss=0.101, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.91it/s]
+06/22/2023 07:59:30 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:59:30 - INFO - klue_baseline.utils.logging - global_step = 118
+06/22/2023 07:59:30 - INFO - klue_baseline.utils.logging - train-loss = 0.10770465433597565
+06/22/2023 07:59:30 - INFO - klue_baseline.utils.logging - valid-loss = 0.13255546987056732
+06/22/2023 07:59:30 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 79.57170826077133
+06/22/2023 07:59:30 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.12514550657433
+Epoch 0:  89%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                          | 179/201 [04:04<00:30,  1.37s/it, loss=0.0969, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.96it/s]
+06/22/2023 07:59:40 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:59:40 - INFO - klue_baseline.utils.logging - global_step = 125
+06/22/2023 07:59:40 - INFO - klue_baseline.utils.logging - train-loss = 0.07811791449785233
+06/22/2023 07:59:40 - INFO - klue_baseline.utils.logging - valid-loss = 0.1252637505531311
+06/22/2023 07:59:40 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 83.18082076305761
+06/22/2023 07:59:40 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.83081402854711
+Epoch 0:  90%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                        | 180/201 [04:05<00:28,  1.36s/it, loss=0.0969, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0:  94%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊              | 189/201 [04:21<00:16,  1.39s/it, loss=0.0898, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.06it/s]
+06/22/2023 07:59:57 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 07:59:57 - INFO - klue_baseline.utils.logging - global_step = 132
+06/22/2023 07:59:57 - INFO - klue_baseline.utils.logging - train-loss = 0.06575936824083328
+06/22/2023 07:59:57 - INFO - klue_baseline.utils.logging - valid-loss = 0.14597173035144806
+06/22/2023 07:59:57 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 81.24749717257738
+06/22/2023 07:59:57 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.16025625835591
+Epoch 0:  99%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋  | 199/201 [04:31<00:02,  1.36s/it, loss=0.0831, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.97it/s]
+06/22/2023 08:00:06 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:00:06 - INFO - klue_baseline.utils.logging - global_step = 139
+06/22/2023 08:00:06 - INFO - klue_baseline.utils.logging - train-loss = 0.05470713600516319
+06/22/2023 08:00:06 - INFO - klue_baseline.utils.logging - valid-loss = 0.14205899834632874
+06/22/2023 08:00:06 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 80.73459682622378
+06/22/2023 08:00:06 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.42313961275069
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [04:40<00:00,  1.40s/it, loss=0.0841, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.93it/s]
+06/22/2023 08:00:16 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:00:16 - INFO - klue_baseline.utils.logging - global_step = 146
+06/22/2023 08:00:16 - INFO - klue_baseline.utils.logging - train-loss = 0.07228685915470123
+06/22/2023 08:00:16 - INFO - klue_baseline.utils.logging - valid-loss = 0.13049747049808502
+06/22/2023 08:00:16 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 82.28342799107948
+06/22/2023 08:00:16 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.41460059545766
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [04:40<00:00,  1.40s/it, loss=0.0841, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [05:04<00:00,  1.51s/it, loss=0.0898, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.21it/s]
+06/22/2023 08:00:39 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:00:39 - INFO - klue_baseline.utils.logging - global_step = 153
+06/22/2023 08:00:39 - INFO - klue_baseline.utils.logging - train-loss = 0.1287059485912323
+06/22/2023 08:00:39 - INFO - klue_baseline.utils.logging - valid-loss = 0.12271454185247421
+06/22/2023 08:00:39 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.09464555410894
+06/22/2023 08:00:39 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.939244003201
+Epoch 0: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [05:04<00:00,  1.52s/it, loss=0.0898, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 1:   4%|██████████▊                                                                                                                                                                                                                                      | 9/201 [00:00<00:19,  9.92it/s, loss=0.08, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.15it/s]
+06/22/2023 08:00:58 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:00:58 - INFO - klue_baseline.utils.logging - global_step = 163
+06/22/2023 08:00:58 - INFO - klue_baseline.utils.logging - train-loss = 0.0448862761259079
+06/22/2023 08:00:58 - INFO - klue_baseline.utils.logging - valid-loss = 0.12697017192840576
+06/22/2023 08:00:58 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 81.4636591960744
+06/22/2023 08:00:58 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.31929781382158
+Epoch 1:   9%|██████████████████████▍                                                                                                                                                                                                                       | 19/201 [00:10<01:38,  1.84it/s, loss=0.0752, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.34it/s]
+06/22/2023 08:01:07 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:01:07 - INFO - klue_baseline.utils.logging - global_step = 170
+06/22/2023 08:01:07 - INFO - klue_baseline.utils.logging - train-loss = 0.08139404654502869
+06/22/2023 08:01:07 - INFO - klue_baseline.utils.logging - valid-loss = 0.12231118232011795
+06/22/2023 08:01:07 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 82.07876125958461
+06/22/2023 08:01:07 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.26479606671515
+Epoch 1:  14%|██████████████████████████████████▎                                                                                                                                                                                                           | 29/201 [00:19<01:56,  1.47it/s, loss=0.0619, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.31it/s]
+06/22/2023 08:01:16 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:01:16 - INFO - klue_baseline.utils.logging - global_step = 177
+06/22/2023 08:01:16 - INFO - klue_baseline.utils.logging - train-loss = 0.0992162674665451
+06/22/2023 08:01:16 - INFO - klue_baseline.utils.logging - valid-loss = 0.13607090711593628
+06/22/2023 08:01:16 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 83.30407355029055
+06/22/2023 08:01:16 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.98489948320562
+Epoch 1:  19%|██████████████████████████████████████████████▏                                                                                                                                                                                               | 39/201 [00:29<02:01,  1.33it/s, loss=0.0671, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.26it/s]
+06/22/2023 08:01:26 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:01:26 - INFO - klue_baseline.utils.logging - global_step = 184
+06/22/2023 08:01:26 - INFO - klue_baseline.utils.logging - train-loss = 0.05715278908610344
+06/22/2023 08:01:26 - INFO - klue_baseline.utils.logging - valid-loss = 0.12711797654628754
+06/22/2023 08:01:26 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 80.33438454561076
+06/22/2023 08:01:26 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.56489957122824
+Epoch 1:  24%|██████████████████████████████████████████████████████████                                                                                                                                                                                    | 49/201 [00:38<01:59,  1.27it/s, loss=0.0632, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.09it/s]
+06/22/2023 08:01:35 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:01:35 - INFO - klue_baseline.utils.logging - global_step = 191
+06/22/2023 08:01:35 - INFO - klue_baseline.utils.logging - train-loss = 0.04553191363811493
+06/22/2023 08:01:35 - INFO - klue_baseline.utils.logging - valid-loss = 0.12880674004554749
+06/22/2023 08:01:35 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 81.75345790350441
+06/22/2023 08:01:35 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 87.93847342656993
+Epoch 1:  29%|█████████████████████████████████████████████████████████████████████▊                                                                                                                                                                        | 59/201 [00:48<01:55,  1.23it/s, loss=0.0601, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.09it/s]
+06/22/2023 08:01:45 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:01:45 - INFO - klue_baseline.utils.logging - global_step = 198
+06/22/2023 08:01:45 - INFO - klue_baseline.utils.logging - train-loss = 0.0686585009098053
+06/22/2023 08:01:45 - INFO - klue_baseline.utils.logging - valid-loss = 0.13165616989135742
+06/22/2023 08:01:45 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 81.91016833642952
+06/22/2023 08:01:45 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.19252476163085
+Epoch 1:  34%|█████████████████████████████████████████████████████████████████████████████████▋                                                                                                                                                            | 69/201 [01:14<02:21,  1.07s/it, loss=0.0621, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.16it/s]
+06/22/2023 08:02:11 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:02:11 - INFO - klue_baseline.utils.logging - global_step = 205
+06/22/2023 08:02:11 - INFO - klue_baseline.utils.logging - train-loss = 0.08154410123825073
+06/22/2023 08:02:11 - INFO - klue_baseline.utils.logging - valid-loss = 0.12409164756536484
+06/22/2023 08:02:11 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.76562059584131
+06/22/2023 08:02:11 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.44389070401625
+Epoch 1:  35%|██████████████████████████████████████████████████████████████████████████████████▉                                                                                                                                                           | 70/201 [01:14<02:19,  1.06s/it, loss=0.0621, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 1:  39%|█████████████████████████████████████████████████████████████████████████████████████████████▉                                                                                                                                                 | 79/201 [01:28<02:17,  1.13s/it, loss=0.062, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.25it/s]
+06/22/2023 08:02:26 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:02:26 - INFO - klue_baseline.utils.logging - global_step = 212
+06/22/2023 08:02:26 - INFO - klue_baseline.utils.logging - train-loss = 0.07373298704624176
+06/22/2023 08:02:26 - INFO - klue_baseline.utils.logging - valid-loss = 0.11907319724559784
+06/22/2023 08:02:26 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.78781470877071
+06/22/2023 08:02:26 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 91.15836775970139
+Epoch 1:  40%|███████████████████████████████████████████████████████████████████████████████████████████████                                                                                                                                                | 80/201 [01:29<02:14,  1.12s/it, loss=0.062, v_num=5517]
+/home/chrisjihee/mambaforge/envs/KLUE-baseline/lib/python3.9/site-packages/torch/optim/lr_scheduler.py:216: UserWarning: Please also save or load the state of the optimizer when saving or loading the scheduler.
+  warnings.warn(SAVE_STATE_WARNING, UserWarning)
+Epoch 1:  44%|█████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                                                                                                                    | 89/201 [01:44<02:11,  1.17s/it, loss=0.0602, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.23it/s]
+06/22/2023 08:02:41 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:02:41 - INFO - klue_baseline.utils.logging - global_step = 219
+06/22/2023 08:02:41 - INFO - klue_baseline.utils.logging - train-loss = 0.046397387981414795
+06/22/2023 08:02:41 - INFO - klue_baseline.utils.logging - valid-loss = 0.1191042885184288
+06/22/2023 08:02:41 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.49754425215458
+06/22/2023 08:02:41 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.66146786507329
+Epoch 1:  49%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                                                                          | 98/201 [01:53<01:59,  1.16s/it, loss=0.0577, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.37it/s]
+06/22/2023 08:02:50 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:02:50 - INFO - klue_baseline.utils.logging - global_step = 226
+06/22/2023 08:02:50 - INFO - klue_baseline.utils.logging - train-loss = 0.050371959805488586
+06/22/2023 08:02:50 - INFO - klue_baseline.utils.logging - valid-loss = 0.11840305477380753
+06/22/2023 08:02:50 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 83.56358615695785
+06/22/2023 08:02:50 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 88.85518610103519
+Epoch 1:  55%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋                                                                                                           | 110/201 [02:03<01:42,  1.12s/it, loss=0.0558, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.10it/s]
+06/22/2023 08:03:00 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:03:00 - INFO - klue_baseline.utils.logging - global_step = 233
+06/22/2023 08:03:00 - INFO - klue_baseline.utils.logging - train-loss = 0.03590651601552963
+06/22/2023 08:03:00 - INFO - klue_baseline.utils.logging - valid-loss = 0.12526391446590424
+06/22/2023 08:03:00 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.29398639820998
+06/22/2023 08:03:00 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.49228724236136
+Epoch 1:  59%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                                                | 119/201 [02:12<01:31,  1.12s/it, loss=0.0577, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.27it/s]
+06/22/2023 08:03:10 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:03:10 - INFO - klue_baseline.utils.logging - global_step = 240
+06/22/2023 08:03:10 - INFO - klue_baseline.utils.logging - train-loss = 0.08127321302890778
+06/22/2023 08:03:10 - INFO - klue_baseline.utils.logging - valid-loss = 0.12447264790534973
+06/22/2023 08:03:10 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.2151421084062
+06/22/2023 08:03:10 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.44515470909462
+Epoch 1:  64%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                                                                                      | 128/201 [02:22<01:21,  1.11s/it, loss=0.0614, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.31it/s]
+06/22/2023 08:03:19 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:03:19 - INFO - klue_baseline.utils.logging - global_step = 247
+06/22/2023 08:03:19 - INFO - klue_baseline.utils.logging - train-loss = 0.03987274691462517
+06/22/2023 08:03:19 - INFO - klue_baseline.utils.logging - valid-loss = 0.11730428785085678
+06/22/2023 08:03:19 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 82.82421740626074
+06/22/2023 08:03:19 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.34927484825603
+Epoch 1:  70%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                        | 140/201 [02:40<01:09,  1.14s/it, loss=0.0634, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.13it/s]
+06/22/2023 08:03:37 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:03:37 - INFO - klue_baseline.utils.logging - global_step = 254
+06/22/2023 08:03:37 - INFO - klue_baseline.utils.logging - train-loss = 0.040565233677625656
+06/22/2023 08:03:37 - INFO - klue_baseline.utils.logging - valid-loss = 0.11768035590648651
+06/22/2023 08:03:37 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 82.51431775226017
+06/22/2023 08:03:37 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.09104134439532
+Epoch 1:  74%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋                                                             | 149/201 [02:49<00:59,  1.14s/it, loss=0.0625, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.07it/s]
+06/22/2023 08:03:46 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:03:46 - INFO - klue_baseline.utils.logging - global_step = 261
+06/22/2023 08:03:46 - INFO - klue_baseline.utils.logging - train-loss = 0.037742555141448975
+06/22/2023 08:03:46 - INFO - klue_baseline.utils.logging - valid-loss = 0.11623388528823853
+06/22/2023 08:03:46 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.43542133211409
+06/22/2023 08:03:46 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.01509443609683
+Epoch 1:  79%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                  | 158/201 [02:59<00:48,  1.13s/it, loss=0.0615, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.76it/s]
+06/22/2023 08:03:56 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:03:56 - INFO - klue_baseline.utils.logging - global_step = 268
+06/22/2023 08:03:56 - INFO - klue_baseline.utils.logging - train-loss = 0.05166364833712578
+06/22/2023 08:03:56 - INFO - klue_baseline.utils.logging - valid-loss = 0.1197948232293129
+06/22/2023 08:03:56 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.7636091539557
+06/22/2023 08:03:56 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.76461585080794
+Epoch 1:  85%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                    | 170/201 [03:09<00:34,  1.11s/it, loss=0.0566, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.09it/s]
+06/22/2023 08:04:06 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:04:06 - INFO - klue_baseline.utils.logging - global_step = 275
+06/22/2023 08:04:06 - INFO - klue_baseline.utils.logging - train-loss = 0.04044615104794502
+06/22/2023 08:04:06 - INFO - klue_baseline.utils.logging - valid-loss = 0.12135124951601028
+06/22/2023 08:04:06 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 86.12162584471163
+06/22/2023 08:04:06 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.27042281016855
+Epoch 1:  89%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                          | 179/201 [03:18<00:24,  1.11s/it, loss=0.0601, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.16it/s]
+06/22/2023 08:04:15 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:04:15 - INFO - klue_baseline.utils.logging - global_step = 282
+06/22/2023 08:04:15 - INFO - klue_baseline.utils.logging - train-loss = 0.048449307680130005
+06/22/2023 08:04:15 - INFO - klue_baseline.utils.logging - valid-loss = 0.1170317679643631
+06/22/2023 08:04:15 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.81564877843836
+06/22/2023 08:04:15 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.50947434687481
+Epoch 1:  94%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋               | 188/201 [03:27<00:14,  1.10s/it, loss=0.0581, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.07it/s]
+06/22/2023 08:04:24 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:04:24 - INFO - klue_baseline.utils.logging - global_step = 289
+06/22/2023 08:04:24 - INFO - klue_baseline.utils.logging - train-loss = 0.04133663326501846
+06/22/2023 08:04:24 - INFO - klue_baseline.utils.logging - valid-loss = 0.11321884393692017
+06/22/2023 08:04:24 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.35283534951394
+06/22/2023 08:04:24 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.76110199839155
+Epoch 1: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊ | 200/201 [03:37<00:01,  1.09s/it, loss=0.0626, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.11it/s]
+06/22/2023 08:04:34 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:04:34 - INFO - klue_baseline.utils.logging - global_step = 296
+06/22/2023 08:04:34 - INFO - klue_baseline.utils.logging - train-loss = 0.06820176541805267
+06/22/2023 08:04:34 - INFO - klue_baseline.utils.logging - valid-loss = 0.10828843712806702
+06/22/2023 08:04:34 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.55354133563237
+06/22/2023 08:04:34 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.56540780164806
+Epoch 1: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [04:04<00:00,  1.21s/it, loss=0.0589, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.31it/s]
+06/22/2023 08:05:01 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:01 - INFO - klue_baseline.utils.logging - global_step = 303
+06/22/2023 08:05:01 - INFO - klue_baseline.utils.logging - train-loss = 0.06479766219854355
+06/22/2023 08:05:01 - INFO - klue_baseline.utils.logging - valid-loss = 0.10682671517133713
+06/22/2023 08:05:01 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.55445260399812
+06/22/2023 08:05:01 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.13869486901159
+Epoch 1: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [04:13<00:00,  1.26s/it, loss=0.0579, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.26it/s]
+06/22/2023 08:05:10 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:10 - INFO - klue_baseline.utils.logging - global_step = 310
+06/22/2023 08:05:10 - INFO - klue_baseline.utils.logging - train-loss = 0.044741835445165634
+06/22/2023 08:05:10 - INFO - klue_baseline.utils.logging - valid-loss = 0.10974016040563583
+06/22/2023 08:05:10 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.99634941760709
+06/22/2023 08:05:10 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.66759364782936
+Epoch 2:   4%|██████████▋                                                                                                                                                                                                                                    | 9/201 [00:00<00:19, 10.10it/s, loss=0.0561, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.15it/s]
+06/22/2023 08:05:20 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:20 - INFO - klue_baseline.utils.logging - global_step = 320
+06/22/2023 08:05:20 - INFO - klue_baseline.utils.logging - train-loss = 0.03938841447234154
+06/22/2023 08:05:20 - INFO - klue_baseline.utils.logging - valid-loss = 0.1108069196343422
+06/22/2023 08:05:20 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.17943406208137
+06/22/2023 08:05:20 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.42801514091857
+Epoch 2:   9%|██████████████████████▍                                                                                                                                                                                                                       | 19/201 [00:10<01:38,  1.86it/s, loss=0.0471, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.16it/s]
+06/22/2023 08:05:29 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:29 - INFO - klue_baseline.utils.logging - global_step = 327
+06/22/2023 08:05:29 - INFO - klue_baseline.utils.logging - train-loss = 0.040955957025289536
+06/22/2023 08:05:29 - INFO - klue_baseline.utils.logging - valid-loss = 0.11492440849542618
+06/22/2023 08:05:29 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.48727354436492
+06/22/2023 08:05:29 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.11957538907922
+Epoch 2:  14%|██████████████████████████████████▎                                                                                                                                                                                                           | 29/201 [00:19<01:56,  1.47it/s, loss=0.0431, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.03it/s]
+06/22/2023 08:05:39 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:39 - INFO - klue_baseline.utils.logging - global_step = 334
+06/22/2023 08:05:39 - INFO - klue_baseline.utils.logging - train-loss = 0.0791068747639656
+06/22/2023 08:05:39 - INFO - klue_baseline.utils.logging - valid-loss = 0.11846679449081421
+06/22/2023 08:05:39 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 83.87883039816742
+06/22/2023 08:05:39 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.53749895435415
+Epoch 2:  19%|██████████████████████████████████████████████▏                                                                                                                                                                                               | 39/201 [00:29<02:01,  1.33it/s, loss=0.0388, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.04it/s]
+06/22/2023 08:05:48 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:48 - INFO - klue_baseline.utils.logging - global_step = 341
+06/22/2023 08:05:48 - INFO - klue_baseline.utils.logging - train-loss = 0.03363223373889923
+06/22/2023 08:05:48 - INFO - klue_baseline.utils.logging - valid-loss = 0.12311237305402756
+06/22/2023 08:05:48 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 81.717847392073
+06/22/2023 08:05:48 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.09748476672961
+Epoch 2:  24%|██████████████████████████████████████████████████████████                                                                                                                                                                                    | 49/201 [00:39<02:01,  1.25it/s, loss=0.0408, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.01it/s]
+06/22/2023 08:05:58 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:05:58 - INFO - klue_baseline.utils.logging - global_step = 348
+06/22/2023 08:05:58 - INFO - klue_baseline.utils.logging - train-loss = 0.04175708442926407
+06/22/2023 08:05:58 - INFO - klue_baseline.utils.logging - valid-loss = 0.12052971869707108
+06/22/2023 08:05:58 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 83.1002417796073
+06/22/2023 08:05:58 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.72773637166142
+Epoch 2:  29%|█████████████████████████████████████████████████████████████████████▊                                                                                                                                                                        | 59/201 [00:57<02:17,  1.03it/s, loss=0.0381, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.02it/s]
+06/22/2023 08:06:16 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:06:16 - INFO - klue_baseline.utils.logging - global_step = 355
+06/22/2023 08:06:16 - INFO - klue_baseline.utils.logging - train-loss = 0.045881740748882294
+06/22/2023 08:06:16 - INFO - klue_baseline.utils.logging - valid-loss = 0.11783824861049652
+06/22/2023 08:06:16 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.6210316615995
+06/22/2023 08:06:16 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.10614605271068
+Epoch 2:  34%|█████████████████████████████████████████████████████████████████████████████████▋                                                                                                                                                            | 69/201 [01:06<02:07,  1.04it/s, loss=0.0338, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.06it/s]
+06/22/2023 08:06:26 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:06:26 - INFO - klue_baseline.utils.logging - global_step = 362
+06/22/2023 08:06:26 - INFO - klue_baseline.utils.logging - train-loss = 0.022316819056868553
+06/22/2023 08:06:26 - INFO - klue_baseline.utils.logging - valid-loss = 0.11460693180561066
+06/22/2023 08:06:26 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 87.17589540296574
+06/22/2023 08:06:26 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.46191482564863
+Epoch 2:  39%|█████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                                | 79/201 [01:16<01:57,  1.04it/s, loss=0.0338, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.01it/s]
+06/22/2023 08:06:35 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:06:35 - INFO - klue_baseline.utils.logging - global_step = 369
+06/22/2023 08:06:35 - INFO - klue_baseline.utils.logging - train-loss = 0.014585228636860847
+06/22/2023 08:06:35 - INFO - klue_baseline.utils.logging - valid-loss = 0.11469344794750214
+06/22/2023 08:06:35 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 86.1657145222719
+06/22/2023 08:06:35 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.23232446302754
+Epoch 2:  44%|█████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                                                                                                                    | 89/201 [01:25<01:47,  1.04it/s, loss=0.0353, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.12it/s]
+06/22/2023 08:06:45 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:06:45 - INFO - klue_baseline.utils.logging - global_step = 376
+06/22/2023 08:06:45 - INFO - klue_baseline.utils.logging - train-loss = 0.014104243367910385
+06/22/2023 08:06:45 - INFO - klue_baseline.utils.logging - valid-loss = 0.11781265586614609
+06/22/2023 08:06:45 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.58233224723904
+06/22/2023 08:06:45 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.12702915085895
+Epoch 2:  49%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                                                                                                                        | 99/201 [01:34<01:37,  1.04it/s, loss=0.0342, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.18it/s]
+06/22/2023 08:06:54 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:06:54 - INFO - klue_baseline.utils.logging - global_step = 383
+06/22/2023 08:06:54 - INFO - klue_baseline.utils.logging - train-loss = 0.030065851286053658
+06/22/2023 08:06:54 - INFO - klue_baseline.utils.logging - valid-loss = 0.12231425940990448
+06/22/2023 08:06:54 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.2592336037917
+06/22/2023 08:06:54 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.00051355635274
+Epoch 2:  54%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                            | 109/201 [01:44<01:27,  1.05it/s, loss=0.0329, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.18it/s]
+06/22/2023 08:07:03 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:07:03 - INFO - klue_baseline.utils.logging - global_step = 390
+06/22/2023 08:07:03 - INFO - klue_baseline.utils.logging - train-loss = 0.0404534749686718
+06/22/2023 08:07:03 - INFO - klue_baseline.utils.logging - valid-loss = 0.12298358231782913
+06/22/2023 08:07:03 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.51665642971787
+06/22/2023 08:07:03 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.64585759547569
+Epoch 2:  59%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                                                                                | 119/201 [01:53<01:18,  1.05it/s, loss=0.0351, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.19it/s]
+06/22/2023 08:07:13 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:07:13 - INFO - klue_baseline.utils.logging - global_step = 397
+06/22/2023 08:07:13 - INFO - klue_baseline.utils.logging - train-loss = 0.040049128234386444
+06/22/2023 08:07:13 - INFO - klue_baseline.utils.logging - valid-loss = 0.11883160471916199
+06/22/2023 08:07:13 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.36396589340832
+06/22/2023 08:07:13 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.00739232793578
+Epoch 2:  64%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                                     | 129/201 [02:19<01:18,  1.08s/it, loss=0.0334, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.96it/s]
+06/22/2023 08:07:39 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:07:39 - INFO - klue_baseline.utils.logging - global_step = 404
+06/22/2023 08:07:39 - INFO - klue_baseline.utils.logging - train-loss = 0.021080760285258293
+06/22/2023 08:07:39 - INFO - klue_baseline.utils.logging - valid-loss = 0.11943639069795609
+06/22/2023 08:07:39 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.56988452374824
+06/22/2023 08:07:39 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.35422900065339
+Epoch 2:  69%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                                                                         | 139/201 [02:29<01:06,  1.07s/it, loss=0.0376, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.79it/s]
+06/22/2023 08:07:48 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:07:48 - INFO - klue_baseline.utils.logging - global_step = 411
+06/22/2023 08:07:48 - INFO - klue_baseline.utils.logging - train-loss = 0.029022281989455223
+06/22/2023 08:07:48 - INFO - klue_baseline.utils.logging - valid-loss = 0.11997982114553452
+06/22/2023 08:07:48 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 86.92363087026011
+06/22/2023 08:07:48 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 91.04513779916427
+Epoch 2:  74%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋                                                             | 149/201 [02:38<00:55,  1.07s/it, loss=0.0384, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.01it/s]
+06/22/2023 08:07:58 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:07:58 - INFO - klue_baseline.utils.logging - global_step = 418
+06/22/2023 08:07:58 - INFO - klue_baseline.utils.logging - train-loss = 0.019004324451088905
+06/22/2023 08:07:58 - INFO - klue_baseline.utils.logging - valid-loss = 0.1192687600851059
+06/22/2023 08:07:58 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 86.24243529186828
+06/22/2023 08:07:58 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.28602525170506
+Epoch 2:  79%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                                 | 159/201 [02:48<00:44,  1.06s/it, loss=0.0374, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.00it/s]
+06/22/2023 08:08:07 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:08:07 - INFO - klue_baseline.utils.logging - global_step = 425
+06/22/2023 08:08:07 - INFO - klue_baseline.utils.logging - train-loss = 0.016516827046871185
+06/22/2023 08:08:07 - INFO - klue_baseline.utils.logging - valid-loss = 0.11631283164024353
+06/22/2023 08:08:07 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.58622569217862
+06/22/2023 08:08:07 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 90.26613619536256
+Epoch 2:  84%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎                                     | 169/201 [02:57<00:33,  1.05s/it, loss=0.0345, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  4.88it/s]
+06/22/2023 08:08:17 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:08:17 - INFO - klue_baseline.utils.logging - global_step = 432
+06/22/2023 08:08:17 - INFO - klue_baseline.utils.logging - train-loss = 0.03652947396039963
+06/22/2023 08:08:17 - INFO - klue_baseline.utils.logging - valid-loss = 0.11750160157680511
+06/22/2023 08:08:17 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.15024084019814
+06/22/2023 08:08:17 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.8518912036837
+Epoch 2:  89%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                          | 179/201 [03:07<00:23,  1.05s/it, loss=0.0331, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.21it/s]
+06/22/2023 08:08:26 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:08:26 - INFO - klue_baseline.utils.logging - global_step = 439
+06/22/2023 08:08:26 - INFO - klue_baseline.utils.logging - train-loss = 0.07077492028474808
+06/22/2023 08:08:26 - INFO - klue_baseline.utils.logging - valid-loss = 0.1186608150601387
+06/22/2023 08:08:26 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.55095037436878
+06/22/2023 08:08:26 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.4795395296552
+Epoch 2:  94%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊              | 189/201 [03:16<00:12,  1.04s/it, loss=0.0373, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.20it/s]
+06/22/2023 08:08:36 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:08:36 - INFO - klue_baseline.utils.logging - global_step = 446
+06/22/2023 08:08:36 - INFO - klue_baseline.utils.logging - train-loss = 0.05405130237340927
+06/22/2023 08:08:36 - INFO - klue_baseline.utils.logging - valid-loss = 0.11908023804426193
+06/22/2023 08:08:36 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.80468969060809
+06/22/2023 08:08:36 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.43561281089004
+Epoch 2:  99%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋  | 199/201 [03:34<00:02,  1.08s/it, loss=0.039, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.17it/s]
+06/22/2023 08:08:53 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:08:53 - INFO - klue_baseline.utils.logging - global_step = 453
+06/22/2023 08:08:53 - INFO - klue_baseline.utils.logging - train-loss = 0.02908824384212494
+06/22/2023 08:08:53 - INFO - klue_baseline.utils.logging - valid-loss = 0.11904600262641907
+06/22/2023 08:08:53 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.47342068006463
+06/22/2023 08:08:53 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.29437643730682
+Epoch 2: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [03:43<00:00,  1.11s/it, loss=0.0336, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.04it/s]
+06/22/2023 08:09:03 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:09:03 - INFO - klue_baseline.utils.logging - global_step = 460
+06/22/2023 08:09:03 - INFO - klue_baseline.utils.logging - train-loss = 0.014281257055699825
+06/22/2023 08:09:03 - INFO - klue_baseline.utils.logging - valid-loss = 0.11880829185247421
+06/22/2023 08:09:03 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.00081554011844
+06/22/2023 08:09:03 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.67259415234939
+Epoch 2: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [03:52<00:00,  1.16s/it, loss=0.0294, v_num=5517]
+Validating:  50%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                                                                                                   | 1/2 [00:00<00:00,  5.29it/s]
+06/22/2023 08:09:12 - INFO - klue_baseline.utils.logging - ***** Validation results *****
+06/22/2023 08:09:12 - INFO - klue_baseline.utils.logging - global_step = 467
+06/22/2023 08:09:12 - INFO - klue_baseline.utils.logging - train-loss = 0.010042105801403522
+06/22/2023 08:09:12 - INFO - klue_baseline.utils.logging - valid-loss = 0.11856403201818466
+06/22/2023 08:09:12 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 84.62585275987551
+06/22/2023 08:09:12 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 89.74025178689729
+Epoch 2: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 201/201 [04:01<00:00,  1.20s/it, loss=0.0347, v_num=5517]
+06/22/2023 08:09:30 - INFO - pytorch_lightning.accelerators.gpu - LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+Testing:  50%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████                                                                                                                                     | 1/2 [00:00<00:00,  3.86it/s]
+
+06/22/2023 08:09:39 - INFO - klue_baseline.utils.logging - ***** Test results *****
+06/22/2023 08:09:39 - INFO - klue_baseline.utils.logging - global_step = 471
+06/22/2023 08:09:39 - INFO - klue_baseline.utils.logging - train-loss = 0.155722513794899
+06/22/2023 08:09:39 - INFO - klue_baseline.utils.logging - valid-loss = 0.11907319724559784
+06/22/2023 08:09:39 - INFO - klue_baseline.utils.logging - valid-entity_macro_f1 = 85.78781470877071
+06/22/2023 08:09:39 - INFO - klue_baseline.utils.logging - valid-character_macro_f1 = 91.15836775970139
+Testing: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:00<00:00,  3.19it/s]
+--------------------------------------------------------------------------------
+ - valid-loss : 0.11907319724559784
+ - valid-entity_macro_f1 : 85.78781470877071
+ - valid-character_macro_f1 : 91.15836775970139
+--------------------------------------------------------------------------------
+(KLUE-baseline) chrisjihee@ptlm3:~/proj/KLUE-baseline$
+
