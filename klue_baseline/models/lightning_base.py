@@ -9,7 +9,8 @@ import importlib_metadata
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-from transformers import AdamW, AutoConfig, AutoTokenizer, PretrainedConfig, PreTrainedTokenizer
+from torch.optim import AdamW  # This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead
+from transformers import AutoConfig, AutoTokenizer, PretrainedConfig, PreTrainedTokenizer
 from transformers.optimization import (
     Adafactor,
     get_cosine_schedule_with_warmup,

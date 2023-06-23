@@ -136,7 +136,7 @@ def make_klue_trainer(
 
     return pl.Trainer.from_argparse_args(
         args,
-        weights_summary=None,
+        enable_model_summary=False,  # Setting `Trainer(weights_summary=None)` is deprecated in v1.5 and will be removed in v1.7. Please set `Trainer(enable_model_summary=False)` instead.
         callbacks=[logging_callback] + extra_callbacks,
         logger=csv_logger,
         **train_params,

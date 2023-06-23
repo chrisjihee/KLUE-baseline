@@ -100,6 +100,7 @@ class KlueDPDataModule(pl.LightningDataModule):
             self.prepare_dataset(dataset_type),
             batch_size=batch_size,
             shuffle=shuffle,
+            num_workers=self.hparams.num_workers,
             collate_fn=self.processor.collate_fn,
         )
 
@@ -133,7 +134,7 @@ class KlueDPDataModule(pl.LightningDataModule):
             type=str,
             help="Name of the test file",
         )
-        parser.add_argument("--num_workers", default=4, type=int, help="kwarg passed to DataLoader")
+        parser.add_argument("--num_workers", default=os.cpu_count(), type=int, help="kwarg passed to DataLoader")
         parser.add_argument("--train_batch_size", default=32, type=int)
         parser.add_argument("--eval_batch_size", default=64, type=int)
         return parser
