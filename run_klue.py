@@ -190,7 +190,7 @@ def main() -> None:
 
         # load the best checkpoint automatically
         trainer.lightning_module.eval_dataset_type = "valid"  # OR trainer.model.eval_dataset_type = "valid"
-        val_results = trainer.test(dataloaders=task.val_loader, verbose=False)[0]
+        val_results = trainer.test(ckpt_path='best', dataloaders=task.val_loader, verbose=False)[0]
         print("-" * 80)
 
         output_val_results_file = os.path.join(args.output_dir, "val_results.txt")
