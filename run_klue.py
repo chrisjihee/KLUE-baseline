@@ -1,4 +1,5 @@
 import argparse
+import inspect
 import logging
 import os
 import sys
@@ -127,7 +128,9 @@ def make_klue_trainer(
     early_stopping_callback = EarlyStopping(monitor=metric_key, patience=args.patience, mode=args.early_stopping_mode)
     extra_callbacks.append(early_stopping_callback)
 
-    train_params: Dict[str, Any] = {}
+    args_params = vars(args)
+    valid_params = inspect.signature(pl.Trainer.__init__).parameters
+    train_params: Dict[str, Any] = {name: args_params[name] for name in valid_params if name in args_params}
     if args.fp16:
         train_params["precision"] = 16
 
@@ -136,16 +139,13 @@ def make_klue_trainer(
     if args.num_devices > 1:
         train_params["strategy"] = "dp"
     train_params["val_check_interval"] = 0.05  # check validation set 20 times during a training epoch
-    train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
-    train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
     train_params["profiler"] = extra_train_kwargs.get("profiler", None)
 
-    return pl.Trainer.from_argparse_args(
-        args,
-        enable_model_summary=False,  # Setting `Trainer(weights_summary=None)` is deprecated in v1.5 and will be removed in v1.7. Please set `Trainer(enable_model_summary=False)` instead.
+    return pl.Trainer(
+        **train_params,
+        enable_model_summary=False,
         callbacks=[logging_callback] + extra_callbacks,
         logger=csv_logger,
-        **train_params,
     )
 
 
