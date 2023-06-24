@@ -45,7 +45,13 @@ def add_general_args(parser: argparse.ArgumentParser, root_dir: str) -> argparse
         help="The output directory where the model predictions and checkpoints will be written.",
     )
     parser.add_argument(
-        "--gpus",
+        "--accelerator",
+        default="auto",
+        type=str,
+        help="Select accelerator type (cpu, gpu, tpu, ipu, hpu, mps, auto)",
+    )
+    parser.add_argument(
+        "--devices",
         default=None,
         nargs="+",
         type=int,
@@ -126,9 +132,9 @@ def make_klue_trainer(
         train_params["precision"] = 16
 
     # Set GPU & Data Parallel
-    args.num_gpus = 0 if args.gpus is None else len(args.gpus)
-    if args.num_gpus > 1:
-        train_params["accelerator"] = "dp"
+    args.num_devices = 0 if args.devices is None else len(args.devices)
+    if args.num_devices > 1:
+        train_params["strategy"] = "dp"
     train_params["val_check_interval"] = 0.05  # check validation set 20 times during a training epoch
     train_params["num_sanity_val_steps"] = args.num_sanity_val_steps
     train_params["accumulate_grad_batches"] = args.accumulate_grad_batches
