@@ -110,6 +110,7 @@ class BaseTransformer(pl.LightningModule):
         )
         self.metrics = nn.ModuleDict(metrics)
         self.eval_dataset_type = "valid"
+        self.outputs = []
 
     def is_use_token_type(self) -> bool:
         if self.config.model_type in set(self.USE_TOKEN_TYPE_MODELS):
@@ -162,11 +163,14 @@ class BaseTransformer(pl.LightningModule):
         # return Format: (e.g. dictionary {"logits": logits, "labels": labels})
         raise NotImplementedError
 
-    def validation_epoch_end(
-            self, outputs: List[Dict[str, torch.Tensor]], data_type: str = "valid", write_predictions: bool = False
+    def on_validation_start(self) -> None:
+        self.outputs = []
+
+    def on_validation_epoch_end(
+            self, data_type: str = "valid", write_predictions: bool = False
     ) -> None:
-        preds = self._convert_outputs_to_preds(outputs)
-        labels = torch.cat([output["labels"] for output in outputs], dim=0)
+        preds = self._convert_outputs_to_preds(self.outputs)
+        labels = torch.cat([output["labels"] for output in self.outputs], dim=0)
 
         if write_predictions is True:
             self.predictions = preds
@@ -181,9 +185,12 @@ class BaseTransformer(pl.LightningModule):
         assert self.eval_dataset_type in {"valid", "test"}
         return self.validation_step(batch, batch_idx, data_type=self.eval_dataset_type)
 
-    def test_epoch_end(self, outputs: List[Dict[str, torch.Tensor]]) -> None:
+    def on_test_start(self) -> None:
+        self.on_validation_start()
+
+    def on_test_epoch_end(self) -> None:
         assert self.eval_dataset_type in {"valid", "test"}
-        return self.validation_epoch_end(outputs, data_type=self.eval_dataset_type, write_predictions=True)
+        return self.on_validation_epoch_end(data_type=self.eval_dataset_type, write_predictions=True)
 
     def _convert_outputs_to_preds(self, outputs: List[Dict[str, torch.Tensor]]) -> Any:
         # outputs is output (dict, return object from validation_step) of list

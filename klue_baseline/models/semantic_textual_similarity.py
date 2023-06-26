@@ -17,11 +17,11 @@ class STSTransformer(SCTransformer):
     def __init__(self, hparams: argparse.Namespace, metrics: dict = {}) -> None:
         super().__init__(hparams, metrics=metrics)
 
-    def validation_epoch_end(
-        self, outputs: List[Dict[str, torch.Tensor]], data_type: str = "valid", write_predictions: bool = False
+    def on_validation_epoch_end(
+        self, data_type: str = "valid", write_predictions: bool = False
     ) -> None:
-        labels = torch.cat([output["labels"] for output in outputs], dim=0)
-        preds = self._convert_outputs_to_preds(outputs)
+        labels = torch.cat([output["labels"] for output in self.outputs], dim=0)
+        preds = self._convert_outputs_to_preds(self.outputs)
 
         if write_predictions is True:
             self.predictions = preds

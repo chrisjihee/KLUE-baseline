@@ -145,17 +145,18 @@ class DSTTransformer(BaseTransformer):
         dst_result = DSTResult(prs=prs, gts=labels, guids=guids)
         # val_output_dict = {"prs": prs, "gts": gts}
         # return val_output_dict
+        self.outputs.append({"results": dst_result})
         return {"results": dst_result}
 
-    def validation_epoch_end(
-        self, outputs: List[Dict[str, List[str]]], data_type: str = "valid", write_predictions: bool = False
+    def on_validation_epoch_end(
+        self, data_type: str = "valid", write_predictions: bool = False
     ) -> None:
         # prs = [output["prs"] for output in outputs]  # B * steps
         # gts = [output["gts"] for output in outputs]
         prs = []
         gts = []
         guids = []
-        for output in outputs:
+        for output in self.outputs:
             if type(output["results"]) == list:
                 for result in output["results"]:
                     prs += result.prs

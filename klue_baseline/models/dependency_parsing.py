@@ -210,14 +210,15 @@ class DPTransformer(BaseTransformer):
         preds = DPResult(heads, types)
         labels = DPResult(head_ids, type_ids)
 
+        self.outputs.append({"preds": preds, "labels": labels})
         return {"preds": preds, "labels": labels}
 
-    def validation_epoch_end(
-        self, outputs: List[Dict[str, DPResult]], data_type: str = "valid", write_predictions: bool = False
+    def on_validation_epoch_end(
+        self, data_type: str = "valid", write_predictions: bool = False
     ) -> None:
         all_preds = []
         all_labels = []
-        for output in zip(outputs):
+        for output in zip(self.outputs):
             all_preds.append(output[0]["preds"])
             all_labels.append(output[0]["labels"])
 

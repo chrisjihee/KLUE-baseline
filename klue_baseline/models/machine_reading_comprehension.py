@@ -71,13 +71,14 @@ class MRCTransformer(BaseTransformer):
             single_example_end_logits = end_logits[i].tolist()
             results.append(SquadResult(unique_id, single_example_start_logits, single_example_end_logits))
 
+        self.outputs.append({"results": QAResults(results)})
         return {"results": QAResults(results)}
 
-    def validation_epoch_end(
-        self, outputs: List[dict], data_type: str = "valid", write_predictions: bool = False
+    def on_validation_epoch_end(
+        self, data_type: str = "valid", write_predictions: bool = False
     ) -> None:
         qa_results = []
-        for output in outputs:
+        for output in self.outputs:
             if isinstance(output["results"], list):
                 for device_outputs in output["results"]:
                     qa_results.extend(device_outputs.results)

@@ -60,16 +60,17 @@ class NERTransformer(BaseTransformer):
 
         self.log(f"{data_type}-loss", loss, on_step=False, on_epoch=True, logger=True)
 
+        self.outputs.append({"logits": logits, "labels": inputs["labels"]})
         return {"logits": logits, "labels": inputs["labels"]}
 
-    def validation_epoch_end(
-        self, outputs: List[Dict[str, torch.Tensor]], data_type: str = "valid", write_predictions: bool = False
+    def on_validation_epoch_end(
+        self, data_type: str = "valid", write_predictions: bool = False
     ) -> None:
         """When validation step ends, either token- or character-level predicted
         labels are aligned with the original character-level labels and then
         evaluated.
         """
-        list_of_subword_preds = self._convert_outputs_to_preds(outputs)
+        list_of_subword_preds = self._convert_outputs_to_preds(self.outputs)
         if self.tokenizer_type == "xlm-sp":
             strip_char = "▁"
         elif self.tokenizer_type == "bert-wp":
