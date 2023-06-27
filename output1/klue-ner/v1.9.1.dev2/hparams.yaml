@@ -42,7 +42,7 @@ num_devices: 1
 num_labels: 13
 num_sanity_val_steps: 2
 num_workers: 32
-output_dir: output1/klue-ner/v1.9.1.dev2-0627_141210
+output_dir: output1/klue-ner/v1.9.1.dev2-0627_174131
 patience: 100000
 seed: 42
 task: klue-ner

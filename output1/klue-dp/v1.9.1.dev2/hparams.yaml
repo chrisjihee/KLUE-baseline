@@ -32,7 +32,7 @@ no_pos: false
 num_devices: 1
 num_sanity_val_steps: 2
 num_workers: 32
-output_dir: output1/klue-dp/v1.9.1.dev2-0627_141225
+output_dir: output1/klue-dp/v1.9.1.dev2-0627_174139
 patience: 100000
 pos_dim: 256
 seed: 42
