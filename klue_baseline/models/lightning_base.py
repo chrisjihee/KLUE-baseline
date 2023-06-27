@@ -3,7 +3,7 @@ import logging
 import math
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import importlib_metadata
 import pytorch_lightning as pl
@@ -163,8 +163,13 @@ class BaseTransformer(pl.LightningModule):
         # return Format: (e.g. dictionary {"logits": logits, "labels": labels})
         raise NotImplementedError
 
-    def on_validation_start(self) -> None:
+    def on_validation_epoch_start(self) -> None:
         self.outputs = []
+
+    def on_validation_batch_end(
+            self, outputs: Optional[Union[torch.Tensor, Dict[str, Any]]], batch: Any, batch_idx: int, dataloader_idx: int = 0
+    ) -> None:
+        self.outputs.append(outputs)
 
     def on_validation_epoch_end(
             self, data_type: str = "valid", write_predictions: bool = False
@@ -185,8 +190,13 @@ class BaseTransformer(pl.LightningModule):
         assert self.eval_dataset_type in {"valid", "test"}
         return self.validation_step(batch, batch_idx, data_type=self.eval_dataset_type)
 
-    def on_test_start(self) -> None:
-        self.on_validation_start()
+    def on_test_epoch_start(self) -> None:
+        self.on_validation_epoch_start()
+
+    def on_test_batch_end(
+            self, outputs: Optional[Union[torch.Tensor, Dict[str, Any]]], batch: Any, batch_idx: int, dataloader_idx: int = 0
+    ) -> None:
+        self.on_validation_batch_end(outputs, batch, batch_idx, dataloader_idx=dataloader_idx)
 
     def on_test_epoch_end(self) -> None:
         assert self.eval_dataset_type in {"valid", "test"}

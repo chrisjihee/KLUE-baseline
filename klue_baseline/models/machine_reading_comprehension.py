@@ -71,7 +71,6 @@ class MRCTransformer(BaseTransformer):
             single_example_end_logits = end_logits[i].tolist()
             results.append(SquadResult(unique_id, single_example_start_logits, single_example_end_logits))
 
-        self.outputs.append({"results": QAResults(results)})
         return {"results": QAResults(results)}
 
     def on_validation_epoch_end(

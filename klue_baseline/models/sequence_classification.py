@@ -51,7 +51,6 @@ class SCTransformer(BaseTransformer):
         loss, logits = outputs[:2]
 
         self.log(f"{data_type}-loss", loss, on_step=False, on_epoch=True, logger=True)
-        self.outputs.append({"logits": logits, "labels": inputs["labels"]})
         return {"logits": logits, "labels": inputs["labels"]}
 
     def on_validation_epoch_end(

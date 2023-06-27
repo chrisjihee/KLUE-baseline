@@ -210,7 +210,6 @@ class DPTransformer(BaseTransformer):
         preds = DPResult(heads, types)
         labels = DPResult(head_ids, type_ids)
 
-        self.outputs.append({"preds": preds, "labels": labels})
         return {"preds": preds, "labels": labels}
 
     def on_validation_epoch_end(

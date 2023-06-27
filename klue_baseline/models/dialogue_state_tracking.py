@@ -145,7 +145,6 @@ class DSTTransformer(BaseTransformer):
         dst_result = DSTResult(prs=prs, gts=labels, guids=guids)
         # val_output_dict = {"prs": prs, "gts": gts}
         # return val_output_dict
-        self.outputs.append({"results": dst_result})
         return {"results": dst_result}
 
     def on_validation_epoch_end(
