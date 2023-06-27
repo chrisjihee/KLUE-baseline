@@ -1,8 +1,8 @@
 # Framework
 --extra-index-url https://download.pytorch.org/whl/cu117
-torch==2.0.0
-transformers==4.27.1
-pytorch-lightning==2.0.0
+torch==2.0.1
+transformers==4.30.2
+pytorch-lightning==2.0.4
 
 # Metrics
 torchmetrics==0.11.4
