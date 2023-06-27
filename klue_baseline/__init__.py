@@ -1,5 +1,5 @@
 """ klue_baseline package info """
-__version__ = "1.9.1.dev2"
+__version__ = "2.0.0.dev0"
 __author__ = "KLUE project contributors"
 
 
